@@ -1,0 +1,32 @@
+/*!* Order *!*/
+/*@layer reset, primevue;*/
+
+/*!* Reset CSS *!*/
+/*@layer reset {*/
+/*    button,*/
+/*    input {*/
+/*        !* CSS to Reset *!*/
+/*    }*/
+/*}*/
+
+
+/* for larger than tablet */
+@media (min-width: 1000px) {
+
+}
+
+/* for tablet */
+@media (max-width: 1000px) {
+
+}
+
+
+/* for larger than mobile */
+@media (min-width: 420px) {
+
+}
+
+/* for mobile */
+@media (max-width: 420px) {
+
+}
