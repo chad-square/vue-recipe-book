@@ -3,10 +3,6 @@
 import NavbarComponent from "@/components/NavbarComponent.vue";
 import UserMenuComponent from "@/components/auth/UserMenuComponent.vue";
 import {useAuthStore} from "@/stores/auth";
-import {ref} from "vue";
-
-const authCred = ref(useAuthStore().auth);
-
 
 </script>
 
@@ -15,9 +11,9 @@ const authCred = ref(useAuthStore().auth);
   <section class="header-component">
     <div class="title-container">
       <h1>Recipe Book</h1>
-      <UserMenuComponent v-if="authCred"/>
+      <UserMenuComponent v-if="useAuthStore().auth"/>
     </div>
-    <NavbarComponent v-if="authCred"/>
+    <NavbarComponent v-if="!useAuthStore().auth"/>
   </section>
 
 </template>

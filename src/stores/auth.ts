@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {ref} from "vue";
+import {computed, ref, watch} from "vue";
 import type {AuthCredential} from "@/models/AuthCredential";
 import type {SignupDetails} from "@/models/signupDetails";
 import type {SignInDetails} from "@/models/SignInDetails";
@@ -10,18 +10,15 @@ import router from "@/router";
 const localAuthKey = `${appName}-authCred`
 
 export const useAuthStore = defineStore('auth', () => {
-    const auth = ref<AuthCredential | undefined>({
-        email: '',
-        uid: '',
-        accessToken: '',
-        refreshToken: ''
+    const auth = ref<AuthCredential | undefined>()
+
+    const isLoggedIn = computed(() => auth.value || localStorage.getItem(localAuthKey))
+
+    watch(isLoggedIn, () => {
+        console.log('auth state changed')
     })
 
-    // const doubleCount = computed(() => count.value * 2)
-
     async function signup(signupDetails: SignupDetails) {
-        // count.value++
-
         const {data, error} = await supabase.auth.signUp({
             email: signupDetails.email,
             password: signupDetails.password,
@@ -68,6 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
 
             auth.value = userData
             localStorage.setItem(localAuthKey, JSON.stringify(auth))
+            return Promise.resolve()
         }
     }
 
@@ -87,6 +85,21 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    function checkLoggedIn(): AuthCredential | undefined {
+        if (!auth.value) {
+            auth.value = getFromLocal()
+            // TODO: refresh the token
+        }
+        return auth.value
+    }
 
-    return {auth, signup, signIn, signOut}
+    function getFromLocal(): AuthCredential {
+        const item = localStorage.getItem(localAuthKey);
+        console.log('got from local', item)
+        const parsedAuthCred: AuthCredential = JSON.parse(item!);
+        console.log('parsed from local', parsedAuthCred)
+        return parsedAuthCred
+    }
+
+    return {auth, signup, signIn, signOut, checkLoggedIn}
 })

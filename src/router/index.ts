@@ -1,7 +1,27 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SignupComponent from "@/components/auth/SignupComponent.vue";
 import SignInComponent from "@/components/auth/SignInComponent.vue";
+import {useAuthStore} from "@/stores/auth";
+import AboutView from "@/views/AboutView.vue";
+
+const isLoggedInGuard = function() {
+  return () => {
+    const loggedIn = useAuthStore().checkLoggedIn();
+    if (loggedIn) return true
+    if (!loggedIn) return false
+  }
+}
+
+const isLoggedAndRedirect = function() {
+  return () => {
+    const loggedIn = useAuthStore().checkLoggedIn();
+    if (loggedIn) return {name: 'main'}
+    if (!loggedIn) return true
+  }
+}
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,6 +30,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+      beforeEnter: isLoggedAndRedirect(),
       children: [
         {
           path: '/',
@@ -34,20 +55,18 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: AboutView
     },
     {
       path: '/book',
       name: 'main',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+      // lazy-loaded route when visited.
       component: () => import('../views/MainView.vue'),
+      beforeEnter: isLoggedInGuard()
     }
   ]
 })
+
+
 
 export default router
