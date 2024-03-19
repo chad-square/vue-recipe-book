@@ -16,10 +16,10 @@ import AppHeaderComponent from "@/components/AppHeaderComponent.vue";
 
 .main-area {
   position: relative;
-  top: 90px;
-  height: calc(100vh - 90px);
-  margin-right: 15px;
-  margin-left: 15px;
+  top: 100px;
+  height: calc(100vh - 100px);
+  margin-right: var(--appHorizontalSpacing);
+  margin-left: var(--appHorizontalSpacing);
   padding: 0 10px 0 10px;
 }
 

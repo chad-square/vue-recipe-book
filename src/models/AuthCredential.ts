@@ -1,6 +1,6 @@
 export interface AuthCredential {
     email: string;
-    firstname: string;
-    lastname: string;
     uid: string;
+    accessToken: string;
+    refreshToken: string;
 }

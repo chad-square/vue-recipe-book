@@ -7,8 +7,8 @@ import router from "@/router";
 
 const formData = ref({
   email: {
-    error: 'chadajsquare@gmail.com',
-    value: 'chad@mail.com'
+    error: '',
+    value: 'chadajsquare@gmail.com'
   },
   password: {
     error: '',

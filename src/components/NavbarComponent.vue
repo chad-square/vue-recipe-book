@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import {ref, toRef} from "vue";
 
-const isActive = ref(false)
 </script>
 
 <template>
@@ -22,20 +20,23 @@ const isActive = ref(false)
 
 .nav-link {
   color: var(--text-color);
+  border: 1px solid var(--text-color);
   text-decoration: none;
-  //border: 1px solid;
   padding: 3px;
   border-radius: 5px;
 
   &:hover {
     color: var(--primary-color-text);
+    border: 1px solid var(--primary-color-text);
     text-decoration: underline;
     cursor: pointer;
   }
 }
 
 .activeLink {
-  color: var(--primary-color-text)
+  color: var(--primary-color-text);
+  border: 1px solid var(--primary-color-text);
+  text-decoration: underline;
 }
 
 </style>

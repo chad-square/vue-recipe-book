@@ -9,6 +9,12 @@
 /*    }*/
 /*}*/
 
+
+:root {
+    --appHorizontalSpacing: 15px;
+    --appVerticalSpacing: 15px;
+}
+
 body {
     margin: 0;
     padding: 0;

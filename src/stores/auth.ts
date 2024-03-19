@@ -5,11 +5,17 @@ import type {SignupDetails} from "@/models/signupDetails";
 import type {SignInDetails} from "@/models/SignInDetails";
 import {appName} from "@/data";
 import {supabase} from "@/lib/subaseClient";
+import router from "@/router";
 
 const localAuthKey = `${appName}-authCred`
 
 export const useAuthStore = defineStore('auth', () => {
-    const auth = ref<{ authCred: AuthCredential }>()
+    const auth = ref<AuthCredential | undefined>({
+        email: '',
+        uid: '',
+        accessToken: '',
+        refreshToken: ''
+    })
 
     // const doubleCount = computed(() => count.value * 2)
 
@@ -26,8 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
             throw error
         }
 
-        if(!error) {
-            console.log(data);
+        if(data.user) {
             const { error } = await supabase
                 .from('users')
                 .insert({userId: data.user?.id, firstname: signupDetails.firstname, lastname: signupDetails.lastname})
@@ -36,14 +41,9 @@ export const useAuthStore = defineStore('auth', () => {
                 console.warn("An error occurred creating new user: ", error)
                 throw error
             }
-            if (!error) {
-                console.log('successful signup')
-            }
-        }
 
-        console.log(data);
-        console.log(signupDetails);
-        console.log(auth.value?.authCred);
+            console.log('successful signup')
+        }
     }
 
     async function signIn(signInDetails: SignInDetails) {
@@ -58,14 +58,17 @@ export const useAuthStore = defineStore('auth', () => {
             throw error
         }
 
-        if(!error) {
-            console.log(data);
-            //TODO: set auth state
+        if(data.user && data.session) {
+            const userData = {
+                email: data.user!.email!,
+                uid: data.user!.id,
+                accessToken: data.session!.access_token,
+                refreshToken: data.session!.refresh_token
+            }
+
+            auth.value = userData
             localStorage.setItem(localAuthKey, JSON.stringify(auth))
         }
-
-
-        console.log(auth.value?.authCred);
     }
 
     async function signOut() {
@@ -79,6 +82,8 @@ export const useAuthStore = defineStore('auth', () => {
         if (!error) {
             localStorage.removeItem(localAuthKey)
             auth.value = undefined
+            console.log('successful sign-out')
+            await router.push('/')
         }
     }
 
