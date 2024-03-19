@@ -1,35 +1,59 @@
 <script setup lang="ts">
 
 import {ref} from "vue";
+import {useAuthStore} from "@/stores/auth";
+import type {SignupDetails} from "@/models/signupDetails";
 
 const formData = ref({
   firstname: {
     error: '',
-    value: ''
+    value: 'Chad'
   },
   lastname: {
     error: '',
-    value: ''
+    value: 'Square'
   },
   username: {
     error: '',
-    value: ''
+    value: 'chad'
   },
   email: {
     error: '',
-    value: ''
+    value: 'chadajsquare@gmail.com'
   },
   password: {
     error: '',
-    value: ''
+    value: 'test123'
   },
 })
+
+
+const onSignup = async function() {
+
+  //TODO: sign-in validation
+
+  const details: SignupDetails = {
+    firstname: formData.value.firstname.value,
+    lastname: formData.value.lastname.value,
+    username: formData.value.username.value,
+    email: formData.value.email.value,
+    password: formData.value.password.value,
+  };
+
+  try {
+     await useAuthStore().signup(details);
+
+  } catch (error) {
+    console.warn(error)
+  }
+}
+
 
 </script>
 
 <template>
 
-  <h1>SIgn up COmp</h1>
+  <h1>New User Sign-up</h1>
 
 
   <div class="card flex flex-column md:flex-row gap-3" @submit.prevent>
@@ -87,6 +111,8 @@ const formData = ref({
       <p class="control-error">some inda eerror</p>
     </div>
   </div>
+
+  <Button @click="onSignup">Signup</Button>
 
 </template>
 

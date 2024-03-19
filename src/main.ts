@@ -125,9 +125,10 @@ import VirtualScroller from 'primevue/virtualscroller';
 const app = createApp(App)
 
 app.use(PrimeVue, {ripple: true});
-app.use(createPinia())
 
 app.use(router)
+app.use(createPinia())
+
 
 app.directive('tooltip', Tooltip);
 app.directive('badge', BadgeDirective);

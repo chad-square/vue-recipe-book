@@ -12,6 +12,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.39.8",
     "pinia": "^2.1.7",
     "primeicons": "^6.0.1",
     "primevue": "^3.50.0",
