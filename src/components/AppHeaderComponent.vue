@@ -16,13 +16,11 @@ import NavbarComponent from "@/components/NavbarComponent.vue";
 <style lang="scss" scoped>
 
 .header-component {
-  border: 1px solid red;
   position: fixed;
   z-index: 100;
   width: 100%;
   top: 0;
   background-color: var(--primary-color);
-  /*background-color: var(--highlight-text-color);*/
   color: var(--text-color);
 }
 

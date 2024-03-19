@@ -7,10 +7,9 @@ import AppHeaderComponent from "@/components/AppHeaderComponent.vue";
   <AppHeaderComponent/>
 
   <main class="main-area">
-
+    <RouterView />
   </main>
 
-  <RouterView />
 </template>
 
 <style scoped>
@@ -18,9 +17,10 @@ import AppHeaderComponent from "@/components/AppHeaderComponent.vue";
 .main-area {
   position: relative;
   top: 90px;
-  height: 100vh;
-  width: 100vw;
-  border: 1px solid black
+  height: calc(100vh - 90px);
+  margin-right: 15px;
+  margin-left: 15px;
+  padding: 0 10px 0 10px;
 }
 
 </style>
