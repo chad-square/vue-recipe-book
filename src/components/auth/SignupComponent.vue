@@ -25,12 +25,53 @@ const formData = ref({
     error: '',
     value: 'test123'
   },
+  isValid: true,
 })
 
+
+function requiredValidation() {
+
+  for (let formControlName in formData.value) {
+
+    if (!formData.value[formControlName].value.length) {
+      console.log(formControlName)
+      console.log(formData.value[formControlName].value.length);
+      formData.value[formControlName].error = `${formControlName} is a required field`
+      formData.value.isValid = false
+    }
+  }
+  // if (!formData.value.firstname.value.length) {
+  //   formData.value.firstname.error = 'Firstname is required'
+  //   return
+  // }
+  //
+  // if (!formData.value.lastname.value.length) {
+  //   formData.value.lastname.error = 'Lastname is required'
+  //   return
+  // }
+  //
+  // if (!formData.value.username.value.length) {
+  //   formData.value.username.error = 'Username is required'
+  //   return
+  // }
+  //
+  // if (!formData.value.email.value.length) {
+  //   formData.value.email.error = 'Email is required'
+  //   return
+  // }
+  //
+  // if (!formData.value.password.value.length) {
+  //   formData.value.password.error = 'Password is required'
+  //   return
+  // }
+}
 
 const onSignup = async function() {
 
   //TODO: sign-in validation
+
+
+  requiredValidation();
 
   const details: SignupDetails = {
     firstname: formData.value.firstname.value,
@@ -40,12 +81,12 @@ const onSignup = async function() {
     password: formData.value.password.value,
   };
 
-  try {
-     await useAuthStore().signup(details);
-
-  } catch (error) {
-    console.warn(error)
-  }
+  // try {
+  //    await useAuthStore().signup(details);
+  //
+  // } catch (error) {
+  //   console.warn(error)
+  // }
 }
 
 
@@ -108,7 +149,7 @@ const onSignup = async function() {
           <i class="pi pi-eye-slash"></i>
         </InputGroupAddon>
       </InputGroup>
-      <p class="control-error">some inda eerror</p>
+      <p class="control-error">some kinda eerror</p>
     </div>
   </div>
 

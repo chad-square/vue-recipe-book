@@ -1,8 +1,6 @@
 <script setup lang="ts">
 
 import {useAuthStore} from "@/stores/auth";
-
-
 import {ref} from "vue";
 
 const menu = ref();
@@ -18,10 +16,23 @@ const items = ref([
         label: 'Sign-out',
         icon: 'pi pi-sign-out',
         command: () => {useAuthStore().signOut()}
-      }
+      },
+      // {
+      //   label: 'Change Theme',
+      //   icon: 'pi pi-user',
+      //   command:  () => switchTheme()
+      // }
     ]
   }
 ]);
+
+// const usePrimeVue1 = usePrimeVue();
+
+// const switchTheme = function() {
+//   // const config = usePrimeVue().config;
+//   // console.log(config)
+//   usePrimeVue1.changeTheme('aura-light-amber', 'aura-dark-amber', 'darkThemeLink', () => {});
+// }
 
 const toggle = (event: any) => {
   menu.value.toggle(event);

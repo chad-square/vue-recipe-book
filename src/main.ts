@@ -1,6 +1,6 @@
-// import 'primevue/resources/themes/aura-light-amber/theme.css'
+// import 'primevue/resources/themes/aura-dark-amber/theme.css'
+import 'primevue/resources/themes/aura-light-amber/theme.css'
 import './assets/main.css'
-import 'primevue/resources/themes/aura-dark-amber/theme.css'
 
 
 import { createApp } from 'vue'
