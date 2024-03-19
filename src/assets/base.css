@@ -9,6 +9,12 @@
 /*    }*/
 /*}*/
 
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 
 /* for larger than tablet */
 @media (min-width: 1000px) {
