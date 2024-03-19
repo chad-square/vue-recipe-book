@@ -9,7 +9,7 @@ const isLoggedInGuard = function() {
   return () => {
     const loggedIn = useAuthStore().checkLoggedIn();
     if (loggedIn) return true
-    if (!loggedIn) return false
+    if (!loggedIn) return {name: 'sign-in'}
   }
 }
 
