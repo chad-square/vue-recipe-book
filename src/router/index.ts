@@ -4,6 +4,7 @@ import SignupComponent from "@/components/auth/SignupComponent.vue";
 import SignInComponent from "@/components/auth/SignInComponent.vue";
 import {useAuthStore} from "@/stores/auth";
 import AboutView from "@/views/AboutView.vue";
+import RecipeList from "@/components/cook-book/recipes/RecipeList.vue";
 
 const isLoggedInGuard = function() {
   return () => {
@@ -16,8 +17,8 @@ const isLoggedInGuard = function() {
 const isLoggedAndRedirect = function() {
   return () => {
     const loggedIn = useAuthStore().checkLoggedIn();
-    if (loggedIn) return {name: 'main'}
-    if (!loggedIn) return true
+    if (loggedIn) return {name: 'recipes'}
+    if (!loggedIn) return {name: 'home'}
   }
 }
 
@@ -28,9 +29,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      redirect: '/recipes',
+      beforeEnter: isLoggedAndRedirect(),
+    },
+    {
+      path: '/home',
       name: 'home',
       component: HomeView,
-      beforeEnter: isLoggedAndRedirect(),
       children: [
         {
           path: '/',
@@ -39,18 +44,15 @@ const router = createRouter({
         },
         {
           path: '/signup',
-          redirect: '/'
+          name: 'signup',
+          component: SignupComponent,
         },
         {
           path: '/sign-in',
           name: 'sign-in',
           component: SignInComponent,
-        },
+        }
       ]
-    },
-    {
-      path: '/home',
-      redirect: '/'
     },
     {
       path: '/about',
@@ -58,11 +60,22 @@ const router = createRouter({
       component: AboutView
     },
     {
-      path: '/book',
-      name: 'main',
+      path: '/recipes',
+      name: 'recipes',
       // lazy-loaded route when visited.
-      component: () => import('../views/MainView.vue'),
-      beforeEnter: isLoggedInGuard()
+      // component: () => import('../views/RecipesView.vue'),
+      beforeEnter: isLoggedInGuard(),
+      children: [
+        {
+          path: '/recipes',
+          name: 'recipeList',
+          component: RecipeList
+        },
+        {
+          path: '/',
+          redirect: '/recipes'
+        },
+      ]
     }
   ]
 })

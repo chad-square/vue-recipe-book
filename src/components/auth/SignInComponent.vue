@@ -35,7 +35,7 @@ const onSignIn = async function () {
 
   try {
     await useAuthStore().signIn(details);
-    await router.push('/book')
+    await router.push('/recipes')
 
   } catch (error) {
     console.warn(error)

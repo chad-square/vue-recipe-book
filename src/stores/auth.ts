@@ -81,7 +81,7 @@ export const useAuthStore = defineStore('auth', () => {
             localStorage.removeItem(localAuthKey)
             auth.value = undefined
             console.log('successful sign-out')
-            await router.push('/')
+            await router.push('/home')
         }
     }
 

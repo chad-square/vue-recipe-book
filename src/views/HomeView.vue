@@ -6,7 +6,7 @@
   <main class="home-view">
 
     <nav class="navbar-component">
-      <RouterLink class="nav-link" active-class="activeLink" to="/">signup</RouterLink>
+      <RouterLink class="nav-link" active-class="activeLink" to="/signup">signup</RouterLink>
       <RouterLink class="nav-link" active-class="activeLink" to="/sign-in">signin</RouterLink>
     </nav>
 
