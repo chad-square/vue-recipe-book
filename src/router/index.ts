@@ -4,7 +4,7 @@ import SignupComponent from "@/components/auth/SignupComponent.vue";
 import SignInComponent from "@/components/auth/SignInComponent.vue";
 import {useAuthStore} from "@/stores/auth";
 import AboutView from "@/views/AboutView.vue";
-import RecipeList from "@/components/cook-book/recipes/RecipeList.vue";
+import RecipesComponent from "@/components/cook-book/recipes/RecipesComponent.vue";
 
 const isLoggedInGuard = function() {
   return () => {
@@ -68,8 +68,8 @@ const router = createRouter({
       children: [
         {
           path: '/recipes',
-          name: 'recipeList',
-          component: RecipeList
+          name: 'recipeBook',
+          component: RecipesComponent
         },
         {
           path: '/',

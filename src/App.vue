@@ -21,6 +21,7 @@ import AppHeaderComponent from "@/components/AppHeaderComponent.vue";
   margin-right: var(--appHorizontalSpacing);
   margin-left: var(--appHorizontalSpacing);
   padding: 0 10px 0 10px;
+  border: 1px solid red;
 }
 
 </style>
