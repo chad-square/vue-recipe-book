@@ -4,7 +4,7 @@ import {ref} from "vue";
 </script>
 
 <template>
-  <main class="home">
+  <main class="home-view">
 <!--    <h1>This is a home page</h1>-->
 
     <nav class="navbar-component">
