@@ -4,6 +4,7 @@ import {ref} from "vue";
 import {useAuthStore} from "@/stores/auth";
 import type {SignInDetails} from "@/models/SignInDetails";
 import router from "@/router";
+import {emailValidation, passwordValidation, requiredValidation} from "@/components/auth/formValidations";
 
 const formData = ref({
   email: {
@@ -12,13 +13,20 @@ const formData = ref({
   },
   password: {
     error: '',
-    value: 'test123'
+    value: 'Test123!'
   },
+  isValid: true
 })
 
-const onSignIn = async function() {
+const onSignIn = async function () {
 
-  //TODO: sign-in validation
+  requiredValidation(formData.value)
+  emailValidation(formData.value)
+  passwordValidation(formData.value)
+
+  if (!formData.value.isValid) {
+    return
+  }
 
   const details: SignInDetails = {
     email: formData.value.email.value,
@@ -40,30 +48,36 @@ const onSignIn = async function() {
 <template>
 
   <h1>Sign in</h1>
-  <div class="card flex flex-column md:flex-row gap-3" @submit.prevent>
+  <form class="card flex flex-column md:flex-row gap-3" @submit.prevent>
 
-    <InputGroup>
-      <InputGroupAddon>
-        <i class="pi pi-envelope"></i>
-      </InputGroupAddon>
-      <InputText placeholder="Email" required v-model="formData.email.value" />
-    </InputGroup>
+    <div class="form-control">
+      <InputGroup>
+        <InputGroupAddon>
+          <i class="pi pi-envelope"></i>
+        </InputGroupAddon>
+        <InputText placeholder="Email" required v-model="formData.email.value"/>
+      </InputGroup>
+      <p :class="{showError: formData.email.error.length > 0}" class="control-error">{{ formData.email.error }}</p>
+    </div>
 
-    <InputGroup>
-      <InputGroupAddon>
-        <i class="pi pi-lock"></i>
-      </InputGroupAddon>
-      <InputText placeholder="Password" type="password" required v-model="formData.password.value" />
-      <InputGroupAddon>
-        <i class="pi pi-eye-slash"></i>
-      </InputGroupAddon>
-    </InputGroup>
+    <div class="form-control">
+      <InputGroup>
+        <InputGroupAddon>
+          <i class="pi pi-lock"></i>
+        </InputGroupAddon>
+        <Password placeholder="Password" v-model="formData.password.value" toggleMask/>
+      </InputGroup>
+      <p :class="{showError: formData.password.error.length > 0}" class="control-error">{{
+          formData.password.error
+        }}</p>
+    </div>
 
     <Button @click="onSignIn">Signin</Button>
-  </div>
+  </form>
 
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "auth-form";
 
 </style>

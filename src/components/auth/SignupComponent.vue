@@ -1,77 +1,48 @@
 <script setup lang="ts">
 
 import {ref} from "vue";
-import {useAuthStore} from "@/stores/auth";
 import type {SignupDetails} from "@/models/signupDetails";
+import {emailValidation, passwordValidation, requiredValidation} from "@/components/auth/formValidations";
+import {useAuthStore} from "@/stores/auth";
+import InputText from "primevue/inputtext";
+import router from "@/router";
 
 const formData = ref({
   firstname: {
     error: '',
-    value: 'Chad'
+    value: ''
   },
   lastname: {
     error: '',
-    value: 'Square'
+    value: ''
   },
   username: {
     error: '',
-    value: 'chad'
+    value: ''
   },
   email: {
     error: '',
-    value: 'chadajsquare@gmail.com'
+    value: ''
   },
   password: {
     error: '',
-    value: 'test123'
+    value: ''
   },
   isValid: true,
 })
 
-
-function requiredValidation() {
-
-  for (let formControlName in formData.value) {
-
-    if (!formData.value[formControlName].value.length) {
-      console.log(formControlName)
-      console.log(formData.value[formControlName].value.length);
-      formData.value[formControlName].error = `${formControlName} is a required field`
-      formData.value.isValid = false
-    }
-  }
-  // if (!formData.value.firstname.value.length) {
-  //   formData.value.firstname.error = 'Firstname is required'
-  //   return
-  // }
-  //
-  // if (!formData.value.lastname.value.length) {
-  //   formData.value.lastname.error = 'Lastname is required'
-  //   return
-  // }
-  //
-  // if (!formData.value.username.value.length) {
-  //   formData.value.username.error = 'Username is required'
-  //   return
-  // }
-  //
-  // if (!formData.value.email.value.length) {
-  //   formData.value.email.error = 'Email is required'
-  //   return
-  // }
-  //
-  // if (!formData.value.password.value.length) {
-  //   formData.value.password.error = 'Password is required'
-  //   return
-  // }
-}
-
 const onSignup = async function() {
 
-  //TODO: sign-in validation
+  requiredValidation(formData.value)
+  emailValidation(formData.value)
+  passwordValidation(formData.value)
 
+  if (!formData.value.isValid) {
+    return
+  }
 
-  requiredValidation();
+  console.log('passed all validation')
+
 
   const details: SignupDetails = {
     firstname: formData.value.firstname.value,
@@ -81,12 +52,15 @@ const onSignup = async function() {
     password: formData.value.password.value,
   };
 
-  // try {
-  //    await useAuthStore().signup(details);
-  //
-  // } catch (error) {
-  //   console.warn(error)
-  // }
+  try {
+     await useAuthStore().signup(details);
+
+    console.log('successful signup')
+    await router.push('/sign-in')
+
+  } catch (error) {
+    console.warn(error)
+  }
 }
 
 
@@ -105,7 +79,7 @@ const onSignup = async function() {
         </InputGroupAddon>
         <InputText placeholder="Firstname" v-model="formData.firstname.value"/>
       </InputGroup>
-      <p class="control-error">some inda eerror</p>
+      <p :class="{showError: formData.firstname.error.length > 0}" class="control-error">{{formData.firstname.error}}</p>
     </div>
 
 
@@ -116,7 +90,7 @@ const onSignup = async function() {
         </InputGroupAddon>
         <InputText placeholder="Lastname" v-model="formData.lastname.value"/>
       </InputGroup>
-      <p class="control-error">some inda eerror</p>
+      <p :class="{showError: formData.lastname.error.length > 0}" class="control-error">{{formData.lastname.error}}</p>
     </div>
 
     <div class="form-control">
@@ -126,7 +100,7 @@ const onSignup = async function() {
         </InputGroupAddon>
         <InputText placeholder="username" v-model="formData.username.value"/>
       </InputGroup>
-      <p class="control-error">some inda eerror</p>
+      <p :class="{showError: formData.username.error.length > 0}" class="control-error">{{formData.username.error}}</p>
     </div>
 
     <div class="form-control">
@@ -136,7 +110,7 @@ const onSignup = async function() {
         </InputGroupAddon>
         <InputText placeholder="Email" required v-model="formData.email.value"/>
       </InputGroup>
-      <p class="control-error">some inda eerror</p>
+      <p :class="{showError: formData.email.error.length > 0}" class="control-error">{{formData.email.error}}</p>
     </div>
 
     <div class="form-control">
@@ -144,12 +118,9 @@ const onSignup = async function() {
         <InputGroupAddon>
           <i class="pi pi-lock"></i>
         </InputGroupAddon>
-        <InputText placeholder="Password" type="password" required v-model="formData.password.value"/>
-        <InputGroupAddon>
-          <i class="pi pi-eye-slash"></i>
-        </InputGroupAddon>
+        <Password v-model="formData.password.value" toggleMask />
       </InputGroup>
-      <p class="control-error">some kinda eerror</p>
+      <p :class="{showError: formData.password.error.length > 0}" class="control-error">{{formData.password.error}}</p>
     </div>
   </div>
 
@@ -158,13 +129,8 @@ const onSignup = async function() {
 </template>
 
 <style lang="scss" scoped>
+@import "auth-form";
 
-
-.control-error {
-  color: var(--highlight-text-color);
-  margin: 0 0 0 0;
-  opacity: 0
-}
 
 
 </style>
