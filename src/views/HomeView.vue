@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import {ref} from "vue";
 
 </script>
 
 <template>
   <main class="home-view">
-<!--    <h1>This is a home page</h1>-->
 
     <nav class="navbar-component">
       <RouterLink class="nav-link" active-class="activeLink" to="/">signup</RouterLink>
