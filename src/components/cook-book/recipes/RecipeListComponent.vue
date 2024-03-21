@@ -76,6 +76,7 @@ watch(props, () => {
     -webkit-box-shadow: 0px 0px 5px 0px rgba(212, 98, 19, 0.68);
     -moz-box-shadow: 0px 0px 5px 0px rgba(212, 98, 19, 0.68);
     box-shadow: 0px 0px 5px 0px rgba(212, 98, 19, 0.68);
+    cursor: pointer;
 
     img {
       width: 100%;
