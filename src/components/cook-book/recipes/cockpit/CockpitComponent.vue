@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import CategorySelector from "@/components/cook-book/recipes/CategorySelectorComponent.vue";
+import CategorySelector from "@/components/cook-book/recipes/cockpit/CategorySelectorComponent.vue";
 import {ref} from "vue";
 import {useRecipeBookStore} from "@/stores/recipeBook";
 
