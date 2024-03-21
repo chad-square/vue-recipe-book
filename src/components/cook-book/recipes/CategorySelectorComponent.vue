@@ -1,21 +1,23 @@
 <script setup lang="ts">
 
 import {ref} from "vue";
+import {recipeCategoryOptions} from "@/mockDatabase";
+import {useRecipeBookStore} from "@/stores/recipeBook";
 
-const categoryOptions = ref<string[]>(['Breakfast', 'Lunch', 'Dinner', 'Light', 'Main', 'Side', 'Snack', 'Dessert', 'Baked']);
-
-const selectedCategories = defineModel<string[]>()
+const categoryOptions = ref<string[]>(recipeCategoryOptions);
 
 const toggleCategorySelect = function(category: string) {
-  if (selectedCategories.value?.find(str => str == category)) {
-    selectedCategories.value = selectedCategories.value?.filter(str => str !== category)
+  console.log('toggle click')
+  if (useRecipeBookStore().filteredCategories?.find(str => str == category)) {
+    useRecipeBookStore().filteredCategories = useRecipeBookStore().filteredCategories?.filter(str => str !== category)
   } else {
-    selectedCategories.value?.push(category)
+    useRecipeBookStore().filteredCategories.unshift(category)
   }
+  console.log(useRecipeBookStore().filteredCategories)
 }
 
 const isSelected = function(option: string): boolean | undefined {
-  return selectedCategories.value?.includes(option)
+  return useRecipeBookStore().filteredCategories?.includes(option)
 }
 
 </script>
@@ -32,6 +34,7 @@ const isSelected = function(option: string): boolean | undefined {
 
 <style lang="scss" scoped>
 .category-selector {
+  align-self: center;
   width: 100%;
   max-width: fit-content;
   overflow-X: auto;
@@ -51,7 +54,6 @@ const isSelected = function(option: string): boolean | undefined {
 
 
   .category-item {
-    //border: 1px solid black;
     border-radius: 6px;
     padding: 5px;
     background-color: var(--orange-100);

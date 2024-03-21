@@ -1,21 +1,59 @@
 <script setup lang="ts">
 
-import CategorySelector from "@/components/cook-book/recipes/CategorySelectorComponent.vue";
-import {ref} from "vue";
-import RecipeList from "@/components/cook-book/recipes/RecipeListComponent.vue";
+import RecipeListComponent from "@/components/cook-book/recipes/RecipeListComponent.vue";
+import {dummyRecipeMetadata} from "@/mockDatabase";
+import {computed, type ComputedRef, ref} from "vue";
+import type {RecipeMetadata} from "@/models/RecipeMetadata";
+import CockpitComponent from "@/components/cook-book/recipes/CockpitComponent.vue";
+import {useRecipeBookStore} from "@/stores/recipeBook";
 
-const filteredCategories = ref<string[]>([]);
-const recipeSearchValue = ref<string[]>([]);
+const allRecipeMetadata = ref<RecipeMetadata[]>(dummyRecipeMetadata)
+
+const search: ComputedRef<RecipeMetadata[]> = computed(() => allRecipeMetadata.value.filter(metadata => {
+  if (useRecipeBookStore().recipeSearchValue.length) {
+    return metadata.name.toLowerCase().includes(useRecipeBookStore().recipeSearchValue.toLowerCase()!)
+  }
+  return allRecipeMetadata.value
+}))
+
+const combinedSearchAndCategoryFilter: ComputedRef<RecipeMetadata[]> = computed(() => search.value.filter(metadata => {
+  if (useRecipeBookStore().filteredCategories?.length) {
+    return metadata.categories.some(category => useRecipeBookStore().filteredCategories.includes(category))
+  }
+  return allRecipeMetadata.value
+}))
+
 </script>
 
 <template>
-  <input placeholder="recipe name">
-  <Button><i class="pi pi-plus"></i></Button>
-  <CategorySelector v-model="filteredCategories"/>
-
-  <RecipeList/>
+  <div class="recipes-component">
+    <CockpitComponent/>
+    <RecipeListComponent :recipeMetadata="combinedSearchAndCategoryFilter"/>
+  </div>
 </template>
 
 <style scoped>
+
+
+/* for larger than tablet */
+@media (min-width: 1000px) {
+
+}
+
+/* for tablet */
+@media (max-width: 1000px) {
+
+}
+
+
+/* for larger than mobile */
+@media (min-width: 420px) {
+
+}
+
+/* for mobile */
+@media (max-width: 420px) {
+
+}
 
 </style>

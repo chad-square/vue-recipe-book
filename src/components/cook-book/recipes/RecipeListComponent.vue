@@ -1,5 +1,13 @@
 <script setup lang="ts">
 
+import type {RecipeMetadata} from "@/models/RecipeMetadata";
+import {watch} from "vue";
+
+const props = defineProps<{recipeMetadata: RecipeMetadata[]}>()
+
+watch(props, () => {
+  console.log(props.recipeMetadata)
+})
 
 </script>
 

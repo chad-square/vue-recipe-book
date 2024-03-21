@@ -5,5 +5,6 @@ export interface RecipeMetadata {
     author: string;
     likes: number;
     thumbnailPath: string;
-    private: boolean
+    private: boolean;
+    categories: string[]
 }
