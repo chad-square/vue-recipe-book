@@ -3,8 +3,9 @@ export interface RecipeMetadata {
     recipeId: number;
     name: string;
     author: string;
-    likes: number;
+    likes: number[];
     thumbnailPath: string;
     private: boolean;
-    categories: string[]
+    categories: string[];
+    cookingTime: string;
 }

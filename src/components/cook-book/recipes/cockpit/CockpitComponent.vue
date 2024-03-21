@@ -5,7 +5,6 @@ import {ref} from "vue";
 import {useRecipeBookStore} from "@/stores/recipeBook";
 
 const filteredCategories = ref(useRecipeBookStore().filteredCategories)
-const recipeSearchValue = ref(useRecipeBookStore().recipeSearchValue)
 
 </script>
 
@@ -42,6 +41,7 @@ const recipeSearchValue = ref(useRecipeBookStore().recipeSearchValue)
       /*border: 1px solid red;*/
       input {
         width: 100%;
+        background-color: var(--orange-50);
       }
     }
   }

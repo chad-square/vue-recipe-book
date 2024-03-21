@@ -17,11 +17,12 @@ import AppHeaderComponent from "@/components/AppHeaderComponent.vue";
 .main-area {
   position: relative;
   top: 100px;
-  height: calc(100vh - 100px);
+  /*height: calc(100vh - 100px);*/
   margin-right: var(--appHorizontalSpacing);
   margin-left: var(--appHorizontalSpacing);
-  padding: 0 10px 0 10px;
-  border: 1px solid red;
+  padding: 0 0 10px 0;
+  background-color: var(--orange-50);
+  /*border: 1px solid blue;*/
 }
 
 </style>

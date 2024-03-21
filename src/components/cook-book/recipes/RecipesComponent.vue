@@ -4,7 +4,7 @@ import RecipeListComponent from "@/components/cook-book/recipes/RecipeListCompon
 import {dummyRecipeMetadata} from "@/mockDatabase";
 import {computed, type ComputedRef, ref} from "vue";
 import type {RecipeMetadata} from "@/models/RecipeMetadata";
-import CockpitComponent from "@/components/cook-book/recipes/CockpitComponent.vue";
+import CockpitComponent from "@/components/cook-book/recipes/cockpit/CockpitComponent.vue";
 import {useRecipeBookStore} from "@/stores/recipeBook";
 
 const allRecipeMetadata = ref<RecipeMetadata[]>(dummyRecipeMetadata)
@@ -33,6 +33,9 @@ const combinedSearchAndCategoryFilter: ComputedRef<RecipeMetadata[]> = computed(
 </template>
 
 <style scoped>
+
+.recipes-component {
+}
 
 
 /* for larger than tablet */
