@@ -7,13 +7,11 @@ import {useRecipeBookStore} from "@/stores/recipeBook";
 const categoryOptions = ref<string[]>(recipeCategoryOptions);
 
 const toggleCategorySelect = function(category: string) {
-  console.log('toggle click')
   if (useRecipeBookStore().filteredCategories?.find(str => str == category)) {
     useRecipeBookStore().filteredCategories = useRecipeBookStore().filteredCategories?.filter(str => str !== category)
   } else {
     useRecipeBookStore().filteredCategories.unshift(category)
   }
-  console.log(useRecipeBookStore().filteredCategories)
 }
 
 const isSelected = function(option: string): boolean | undefined {
