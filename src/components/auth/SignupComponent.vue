@@ -2,7 +2,7 @@
 
 import {ref} from "vue";
 import type {SignupDetails} from "@/models/signupDetails";
-import {emailValidation, passwordValidation, requiredValidation} from "@/components/auth/formValidations";
+import {emailValidation, passwordValidation, requiredValidation} from "@/shared/form/formValidations";
 import {useAuthStore} from "@/stores/auth";
 import InputText from "primevue/inputtext";
 import router from "@/router";
@@ -129,7 +129,7 @@ const onSignup = async function() {
 </template>
 
 <style lang="scss" scoped>
-@import "auth-form";
+@import "../../shared/form/recipe-form";
 
 
 

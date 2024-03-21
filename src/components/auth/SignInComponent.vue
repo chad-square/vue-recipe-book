@@ -4,7 +4,7 @@ import {ref} from "vue";
 import {useAuthStore} from "@/stores/auth";
 import type {SignInDetails} from "@/models/SignInDetails";
 import router from "@/router";
-import {emailValidation, passwordValidation, requiredValidation} from "@/components/auth/formValidations";
+import {emailValidation, passwordValidation, requiredValidation} from "@/shared/form/formValidations";
 
 const formData = ref({
   email: {
@@ -78,6 +78,6 @@ const onSignIn = async function () {
 </template>
 
 <style lang="scss" scoped>
-@import "auth-form";
+@import "../../shared/form/recipe-form";
 
 </style>
