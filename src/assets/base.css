@@ -24,6 +24,20 @@ body {
 }
 
 
+.app-chip {
+    border-radius: 6px;
+    padding: 5px;
+    background-color: var(--orange-100);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.app-chip-selected {
+    background-color: var(--orange-400);
+}
+
+
 /* for larger than tablet */
 @media (min-width: 1000px) {
 

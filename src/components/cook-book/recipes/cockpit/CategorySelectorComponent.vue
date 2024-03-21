@@ -25,7 +25,7 @@ const isSelected = function(option: string): boolean | undefined {
 <template>
 
   <ul class="category-selector">
-    <li v-for="(category, index) in categoryOptions" :key="index" class="category-item" :class="{selected: isSelected(category)}" @click="toggleCategorySelect(category)">
+    <li v-for="(category, index) in categoryOptions" :key="index" class="app-chip category-item" :class="{'app-chip-selected': isSelected(category)}" @click="toggleCategorySelect(category)">
       {{ category }}
     </li>
   </ul>
@@ -54,20 +54,9 @@ const isSelected = function(option: string): boolean | undefined {
 
 
   .category-item {
-    border-radius: 6px;
-    padding: 5px;
-    background-color: var(--orange-100);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
     &:hover {
       cursor: pointer;
     }
-  }
-
-  .selected {
-    background-color: var(--orange-400);
   }
 }
 </style>
