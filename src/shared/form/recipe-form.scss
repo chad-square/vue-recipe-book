@@ -1,3 +1,9 @@
+.form-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .control-error {
   color: var(--highlight-text-color);
   margin: 0 0 0 0;
@@ -8,4 +14,33 @@
 
 .showError {
   opacity: 1
+}
+
+.inputs-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  ::v-deep(.p-button .p-button-label) {
+    display: none !important;
+  }
+}
+
+.recipe-input-list {
+  padding: 0;
+  text-align: left;
+
+  li {
+    max-width: 80vw
+  }
+}
+
+/* for larger than tablet */
+@media (min-width: 1000px) {
+  .recipe-input-list {
+    li {
+      max-width: 50vw
+    }
+  }
 }

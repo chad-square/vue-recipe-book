@@ -1,7 +1,7 @@
-export const requiredValidation = function(formData) {
+export const requiredValidation = function(formData: any) {
 
     for (const formControlName in formData) {
-        if (formControlName !== 'isValid') {
+        if (formControlName !== 'isValid' && formControlName !== 'isPrivate') {
             if (!formData[formControlName].value.length) {
                 formData[formControlName].error = `${formControlName.charAt(0).toUpperCase()}${formControlName.substring(1)}  is a required field`
                 formData.isValid = false
@@ -15,7 +15,7 @@ export const requiredValidation = function(formData) {
     formData.isValid = true
 }
 
-export const emailValidation = function(formData) {
+export const emailValidation = function(formData: any) {
 
     const emailExpression = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$');
     if (!emailExpression.test(formData.email.value)) {
@@ -27,7 +27,7 @@ export const emailValidation = function(formData) {
     formData.isValid = true
 }
 
-export const passwordValidation = function(formData) {
+export const passwordValidation = function(formData: any) {
     if (formData.password.value.length < 8) {
         formData.password.error = "Password must be at least 8 characters"
         formData.isValid = false

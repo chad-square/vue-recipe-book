@@ -5,6 +5,7 @@ import SignInComponent from "@/components/auth/SignInComponent.vue";
 import {useAuthStore} from "@/stores/auth";
 import AboutView from "@/views/AboutView.vue";
 import RecipesComponent from "@/components/cook-book/recipes/RecipesComponent.vue";
+import CreateRecipeComponent from "@/components/cook-book/create-recipe/CreateRecipeComponent.vue";
 
 const isLoggedInGuard = function() {
   return () => {
@@ -74,6 +75,11 @@ const router = createRouter({
         {
           path: '/',
           redirect: '/recipes'
+        },
+        {
+          path: '/create',
+          name: 'createRecipe',
+          component: CreateRecipeComponent
         },
       ]
     }

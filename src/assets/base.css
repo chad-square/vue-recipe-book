@@ -13,6 +13,7 @@
 :root {
     --appHorizontalSpacing: 15px;
     --appVerticalSpacing: 15px;
+    --appElementSpacing: 15px;
 }
 
 body {
@@ -67,11 +68,11 @@ body {
 
 
 /* for larger than mobile */
-@media (min-width: 420px) {
+@media (min-width: 450px) {
 
 }
 
 /* for mobile */
-@media (max-width: 420px) {
+@media (max-width: 450px) {
 
 }

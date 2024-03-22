@@ -37,26 +37,4 @@ const combinedSearchAndCategoryFilter: ComputedRef<RecipeMetadata[]> = computed(
 .recipes-component {
 }
 
-
-/* for larger than tablet */
-@media (min-width: 1000px) {
-
-}
-
-/* for tablet */
-@media (max-width: 1000px) {
-
-}
-
-
-/* for larger than mobile */
-@media (min-width: 420px) {
-
-}
-
-/* for mobile */
-@media (max-width: 420px) {
-
-}
-
 </style>

@@ -1,11 +1,11 @@
 export interface RecipeMetadata {
-    id: number
-    recipeId: number;
+    id: number | undefined
+    recipeId: number | undefined;
     name: string;
     author: string;
-    likes: number[];
+    likes: number[] | string;
     thumbnailPath: string;
-    private: boolean;
-    categories: string[];
+    isPrivate: boolean;
+    categories: string[] | string;
     cookingTime: string;
 }
