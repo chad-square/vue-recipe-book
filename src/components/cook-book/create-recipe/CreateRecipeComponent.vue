@@ -63,7 +63,7 @@ const onCreateRecipe = async function () {
   const metadata: RecipeMetadata = {
     id: undefined,
     recipeId: undefined,
-    author: '',
+    author: useAuthStore().auth?.email!,
     likes: JSON.stringify([]),
     name: formData.value.name.value,
     thumbnailPath: formData.value.thumbnailPath.value,
@@ -148,6 +148,8 @@ const onCreateRecipe = async function () {
       </div>
 
 
+<!--      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa eaque enim esse excepturi in inventore itaque numquam repellendus ut voluptatibus.</p>-->
+
       <div class="form-control recipe-control ingredients-control">
         <label for="">Ingredients:</label>
         <IngredientInput v-model="formData.ingredients.value"/>
@@ -166,9 +168,10 @@ const onCreateRecipe = async function () {
 <!--          }}</p>-->
 <!--      </div>-->
 
-      <Button @click="onCreateRecipe">Create Recipe</Button>
 
     </form>
+    <Button @click="onCreateRecipe" class="recipe-submit">Save Recipe</Button>
+
   </section>
 
 </template>
@@ -182,6 +185,12 @@ const onCreateRecipe = async function () {
   align-items: center;
 }
 
+.new-recipe-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 .recipe-control {
   text-align: center;
@@ -205,10 +214,6 @@ const onCreateRecipe = async function () {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.instructions-control {
-  //margin-top: var(--appElementSpacing);
 }
 
 
@@ -244,15 +249,10 @@ const onCreateRecipe = async function () {
     grid-area: instructionsControl;
   }
 
-  Button {
-    grid-area: button;
-    //he
-  }
-
-
   .new-recipe-form {
     display: grid;
-    grid-template-areas: "nameControl isPrivateControl" "categoriesControl cookingTimeControl" "ingredientsControl instructionsControl" "button button";
+    grid-template-areas: "nameControl isPrivateControl" "categoriesControl cookingTimeControl" "ingredientsControl instructionsControl";
+    place-items: start;
   }
 
 

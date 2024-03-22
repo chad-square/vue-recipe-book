@@ -38,9 +38,9 @@ const onAddIngredient = function () {
                 placeholder="Select a Measurement" class=""/>
       <Button @click="onAddIngredient" class="pi pi-plus"></Button>
     </div>
-    <ul class="recipe-input-list">
+    <ul class="recipe-input-list listed-ingredients">
       <li v-for="(ingredient,  index) in ingredients" :key="index">
-        <p>{{ ingredient.name }} <span>{{ ingredient.quantity }}<span class="measurement">{{ ingredient.measurement['code'] }}</span></span></p>
+        <p>{{ ingredient.name }} - <span class="quantity app-chip">{{ ingredient.quantity }}<span class="measurement">{{ ingredient.measurement['code'] }}</span></span></p>
       </li>
     </ul>
   </div>
@@ -55,24 +55,30 @@ const onAddIngredient = function () {
 
   .measurement {
     font-size: small;
-    //font-weight: 200;
     font-style: italic;
   }
-
-
-
-  //.recipe-list {
-  //  list-style: none;
-  //}
 }
 
 .recipe-input-list {
-  //margin: 0;
 
   p {
     margin: 0;
   }
+
+  .quantity {
+    width: fit-content;
+    display: inline-flex;
+  }
 }
 
+
+
+
+/* for larger than mobile */
+@media (min-width: 450px) {
+  .listed-ingredients {
+    width: 32vw;
+  }
+}
 
 </style>
