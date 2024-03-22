@@ -5,11 +5,10 @@ import type {SignupDetails} from "@/models/signupDetails";
 import type {SignInDetails} from "@/models/SignInDetails";
 import {appName} from "@/data";
 import {supabase} from "@/lib/subaseClient";
-import router from "@/router";
 import {RouterService} from "@/router/RouterService";
 
 const localAuthKey = `${appName}-authCred`
-const router2 = new RouterService()
+const router = new RouterService()
 
 export const useAuthStore = defineStore('auth', () => {
     const auth = ref<AuthCredential | undefined>()
@@ -83,8 +82,7 @@ export const useAuthStore = defineStore('auth', () => {
             localStorage.removeItem(localAuthKey)
             auth.value = undefined
             console.log('successful sign-out')
-            // await router.push('/sign-in')
-            await router2.navigateToSignIn()
+            await router.navigateToSignIn()
         }
     }
 

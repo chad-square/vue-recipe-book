@@ -147,9 +147,6 @@ const onCreateRecipe = async function () {
           }}</p>
       </div>
 
-
-<!--      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa eaque enim esse excepturi in inventore itaque numquam repellendus ut voluptatibus.</p>-->
-
       <div class="form-control recipe-control ingredients-control">
         <label for="">Ingredients:</label>
         <IngredientInput v-model="formData.ingredients.value"/>

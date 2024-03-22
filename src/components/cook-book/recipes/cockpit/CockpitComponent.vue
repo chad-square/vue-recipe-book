@@ -44,7 +44,6 @@ const onAddRecipeClick = function () {
 
     .p-icon-field {
       width: 80%;
-      /*border: 1px solid red;*/
       input {
         width: 100%;
         background-color: var(--orange-50);
