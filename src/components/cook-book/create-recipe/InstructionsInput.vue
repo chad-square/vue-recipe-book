@@ -35,4 +35,11 @@ const onAddInstruction = function () {
 
 }
 
+/* for larger than mobile */
+@media (min-width: 450px) {
+  .recipe-input-list {
+    width: 32vw;
+  }
+}
+
 </style>

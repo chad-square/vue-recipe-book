@@ -101,7 +101,7 @@ const onCreateRecipe = async function () {
 
     <form class="new-recipe-form">
 
-      <div class="form-control recipe-control">
+      <div class="form-control recipe-control name-control">
         <div class="container">
           <label>Recipe Name:</label>
           <InputText placeholder="Email" required v-model="formData.name.value"/>
@@ -137,7 +137,7 @@ const onCreateRecipe = async function () {
           }}</p>
       </div>
 
-      <div class="form-control recipe-control">
+      <div class="form-control recipe-control cooking-time-control">
         <div class="container">
           <label for="">Cooking Time:</label>
           <InputText placeholder="Cooking Time" v-model="formData.cookingTime.value"/>
@@ -213,8 +213,52 @@ const onCreateRecipe = async function () {
 
 /* for larger than mobile */
 @media (min-width: 450px) {
+
+
+  .name-control {
+    grid-area: nameControl;
+  }
+
+  .is-private-control {
+    grid-area: isPrivateControl;
+  }
+
+  .categories-control {
+    grid-area: categoriesControl;
+  }
+
+  .cooking-time-control {
+    grid-area: cookingTimeControl;
+  }
+
+  .ingredients-control {
+    grid-area: ingredientsControl;
+  }
+
+  .instructions-control {
+    grid-area: instructionsControl;
+  }
+
+  Button {
+    grid-area: button;
+    //he
+  }
+
+
+  .new-recipe-form {
+    display: grid;
+    //grid-template-columns: 1fr 1fr;
+    grid-template-areas: "nameControl isPrivateControl" "categoriesControl cookingTimeControl" "ingredientsControl instructionsControl" "button button";
+    //grid-template-areas:
+    //    "nameControl ."
+    //    "isPrivateCobntrol categoriesControl cookingTimeControl"
+    //    "ingredientsControl instructionsControl";
+  }
+
+
+
   .recipe-control {
-    text-align: center;
+    //text-align: center;
 
     .container {
       display: flex;
