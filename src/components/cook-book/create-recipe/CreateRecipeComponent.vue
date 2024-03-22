@@ -140,7 +140,6 @@ const onCreateRecipe = async function () {
       <div class="form-control recipe-control cooking-time-control">
         <div class="container">
           <label for="">Cooking Time:</label>
-<!--          <InputText placeholder="Cooking Time" v-model="formData.cookingTime.value"/>-->
           <Calendar id="calendar-timeonly" v-model="formData.cookingTime.value" timeOnly />
         </div>
         <p :class="{showError: formData.cookingTime.error.length > 0}" class="control-error">{{
