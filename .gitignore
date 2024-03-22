@@ -29,5 +29,5 @@ coverage
 
 *.tsbuildinfo
 
-lib/supabaseClient.ts
+/lib/supabaseClient.ts
 data.ts
