@@ -2,7 +2,9 @@
 
 import {useAuthStore} from "@/stores/auth";
 import {ref} from "vue";
+import {RouterService} from "@/router/RouterService";
 
+const router = new RouterService()
 const menu = ref();
 const items = ref([
   {
@@ -11,6 +13,11 @@ const items = ref([
       {
         label: 'Account',
         icon: 'pi pi-user'
+      },
+      {
+        label: 'Recipes',
+        icon: 'pi pi-table',
+        command: () => {router.navigateToRecipes()}
       },
       {
         label: 'Sign-out',

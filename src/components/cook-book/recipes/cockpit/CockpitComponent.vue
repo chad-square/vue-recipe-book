@@ -3,8 +3,14 @@
 import CategorySelector from "@/components/cook-book/recipes/cockpit/CategorySelectorComponent.vue";
 import {ref} from "vue";
 import {useRecipeBookStore} from "@/stores/recipeBook";
+import {RouterService} from "@/router/RouterService";
 
 const filteredCategories = ref(useRecipeBookStore().filteredCategories)
+const router = new RouterService()
+
+const onAddRecipeClick = function () {
+  router.navigateToCreateRecipe()
+}
 
 </script>
 
@@ -16,7 +22,7 @@ const filteredCategories = ref(useRecipeBookStore().filteredCategories)
         <InputIcon class="pi pi-search"></InputIcon>
         <InputText v-model="useRecipeBookStore().recipeSearchValue" placeholder="Search for recipe name" />
       </IconField>
-      <Button><i class="pi pi-plus"></i></Button>
+      <Button @click="onAddRecipeClick"><i class="pi pi-plus"></i></Button>
     </div>
     <CategorySelector v-model="filteredCategories"/>
   </div>

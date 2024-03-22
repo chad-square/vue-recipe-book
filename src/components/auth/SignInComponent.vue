@@ -3,9 +3,10 @@
 import {ref} from "vue";
 import {useAuthStore} from "@/stores/auth";
 import type {SignInDetails} from "@/models/SignInDetails";
-import router from "@/router";
 import {emailValidation, passwordValidation, requiredValidation} from "@/shared/form/formValidations";
+import {RouterService} from "@/router/RouterService";
 
+const router = new RouterService()
 const formData = ref({
   email: {
     error: '',
@@ -35,7 +36,7 @@ const onSignIn = async function () {
 
   try {
     await useAuthStore().signIn(details);
-    await router.push('/recipes')
+    await router.navigateToRecipes()
 
   } catch (error) {
     console.warn(error)

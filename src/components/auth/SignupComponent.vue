@@ -5,8 +5,9 @@ import type {SignupDetails} from "@/models/signupDetails";
 import {emailValidation, passwordValidation, requiredValidation} from "@/shared/form/formValidations";
 import {useAuthStore} from "@/stores/auth";
 import InputText from "primevue/inputtext";
-import router from "@/router";
+import {RouterService} from "@/router/RouterService";
 
+const router = new RouterService()
 const formData = ref({
   firstname: {
     error: '',
@@ -56,7 +57,7 @@ const onSignup = async function() {
      await useAuthStore().signup(details);
 
     console.log('successful signup')
-    await router.push('/sign-in')
+    await router.navigateToSignIn()
 
   } catch (error) {
     console.warn(error)
