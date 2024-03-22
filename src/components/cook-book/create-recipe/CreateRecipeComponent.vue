@@ -140,7 +140,8 @@ const onCreateRecipe = async function () {
       <div class="form-control recipe-control cooking-time-control">
         <div class="container">
           <label for="">Cooking Time:</label>
-          <InputText placeholder="Cooking Time" v-model="formData.cookingTime.value"/>
+<!--          <InputText placeholder="Cooking Time" v-model="formData.cookingTime.value"/>-->
+          <Calendar id="calendar-timeonly" v-model="formData.cookingTime.value" timeOnly />
         </div>
         <p :class="{showError: formData.cookingTime.error.length > 0}" class="control-error">{{
             formData.cookingTime.error
@@ -211,6 +212,11 @@ const onCreateRecipe = async function () {
   //margin-top: var(--appElementSpacing);
 }
 
+
+
+
+
+
 /* for larger than mobile */
 @media (min-width: 450px) {
 
@@ -247,19 +253,11 @@ const onCreateRecipe = async function () {
 
   .new-recipe-form {
     display: grid;
-    //grid-template-columns: 1fr 1fr;
     grid-template-areas: "nameControl isPrivateControl" "categoriesControl cookingTimeControl" "ingredientsControl instructionsControl" "button button";
-    //grid-template-areas:
-    //    "nameControl ."
-    //    "isPrivateCobntrol categoriesControl cookingTimeControl"
-    //    "ingredientsControl instructionsControl";
   }
 
 
-
   .recipe-control {
-    //text-align: center;
-
     .container {
       display: flex;
       flex-direction: row;
@@ -267,9 +265,16 @@ const onCreateRecipe = async function () {
       label {
         width: 115px;
       }
-
     }
   }
+
+  .cooking-time-control {
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
 }
 
 
