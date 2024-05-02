@@ -89,7 +89,6 @@ export const useAuthStore = defineStore('auth', () => {
     function checkLoggedIn(): AuthCredential | undefined {
         if (!auth.value) {
             auth.value = getFromLocal()
-            // TODO: refresh the token
         }
         return auth.value
     }
