@@ -1,5 +1,5 @@
 export interface RecipeMetadata {
-    id: number | undefined
+    id: number | undefined;
     recipeId: number | undefined;
     name: string;
     author: string;
