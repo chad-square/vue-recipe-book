@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import {emailValidation, passwordValidation, requiredValidation} from "@/shared/form/formValidations";
-import type {SignInDetails} from "@/models/SignInDetails";
 import {useAuthStore} from "@/stores/auth";
-import router from "@/router";
 import type {Recipe} from "@/models/Recipe";
 import type {RecipeMetadata} from "@/models/RecipeMetadata";
-import {recipeCategoryOptions} from "@/mockDatabase";
 import IngredientInput from "@/components/cook-book/create-recipe/IngredientInput.vue";
 import InstructionsInput from "@/components/cook-book/create-recipe/InstructionsInput.vue";
-import CategorySelector from "@/components/cook-book/create-recipe/CategorySelectorInput.vue";
-import FormCategorySelector from "@/components/cook-book/create-recipe/CategorySelectorInput.vue";
 import CategorySelectorInput from "@/components/cook-book/create-recipe/CategorySelectorInput.vue";
+import {useRecipeBookStore} from "@/stores/recipeBook";
+import {requiredValidation} from "@/shared/form/formValidations";
+import TimeInput from "@/shared/form/components/time-input.vue";
 
 const selectedCategories = ref([]);
 const formData = ref({
@@ -52,14 +49,13 @@ const formData = ref({
 
 const onCreateRecipe = async function () {
 
-  // requiredValidation(formData.value)
-  // emailValidation(formData.value)
-  // passwordValidation(formData.value)
+  requiredValidation(formData.value)
 
   if (!formData.value.isValid) {
     return
   }
 
+  console.log(useAuthStore().auth?.email);
   const metadata: RecipeMetadata = {
     id: undefined,
     recipeId: undefined,
@@ -72,25 +68,19 @@ const onCreateRecipe = async function () {
     cookingTime: formData.value.cookingTime.value
   };
 
+  console.log(useAuthStore().auth?.email);
+
   const recipe: Recipe = {
     id: undefined,
-    userId: undefined,
+    userId: useAuthStore().auth?.uid,
     ingredients: JSON.stringify(formData.value.ingredients.value),
     instructions: JSON.stringify(formData.value.instructions.value),
     additionalComments: JSON.stringify(formData.value.additionalComments.value)
   }
 
-  try {
-    console.log(formData.value.ingredients)
-    console.log(selectedCategories.value)
-    console.log('new recipe metadata created: ', metadata)
-    console.log('new recipe created: ', recipe)
-    // await useAuthStore().signIn(details);
-    // await router.push('/recipes')
+  console.log('recipe: ', recipe, "metadata: ", metadata)
 
-  } catch (error) {
-    console.warn(error)
-  }
+  await useRecipeBookStore().createRecipe(recipe, metadata)
 }
 </script>
 
@@ -100,6 +90,8 @@ const onCreateRecipe = async function () {
     <h1 class="header">Create a new Recipe</h1>
 
     <form class="new-recipe-form">
+
+<!--      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam dolores, exercitationem illum nam natus necessitatibus neque omnis quaerat ullam!</p>-->
 
       <div class="form-control recipe-control name-control">
         <div class="container">
@@ -249,7 +241,7 @@ const onCreateRecipe = async function () {
   .new-recipe-form {
     display: grid;
     grid-template-areas: "nameControl isPrivateControl" "categoriesControl cookingTimeControl" "ingredientsControl instructionsControl";
-    place-items: start;
+    place-items: normal;
   }
 
 
