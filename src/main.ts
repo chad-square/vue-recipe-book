@@ -127,7 +127,6 @@ const app = createApp(App)
 app.use(PrimeVue, {ripple: true});
 
 app.use(router)
-app.use(createPinia())
 
 
 app.directive('tooltip', Tooltip);
@@ -235,5 +234,7 @@ app.component('TreeSelect', TreeSelect);
 app.component('TreeTable', TreeTable);
 app.component('TriStateCheckbox', TriStateCheckbox);
 app.component('VirtualScroller', VirtualScroller);
+
+app.use(createPinia())
 
 app.mount('#app')
