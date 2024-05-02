@@ -4,8 +4,8 @@ import type {AuthCredential} from "@/models/AuthCredential";
 import type {SignupDetails} from "@/models/signupDetails";
 import type {SignInDetails} from "@/models/SignInDetails";
 import {appName} from "@/data";
-import {supabase} from "@/lib/subaseClient";
 import {RouterService} from "@/router/RouterService";
+import {supabase} from "@/lib/supabaseClient";
 
 const localAuthKey = `${appName}-authCred`
 const router = new RouterService()
@@ -96,10 +96,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     function getFromLocal(): AuthCredential {
         const item = localStorage.getItem(localAuthKey);
-        console.log('got from local', item)
-        const parsedAuthCred: AuthCredential = JSON.parse(item!);
-        console.log('parsed from local', parsedAuthCred)
-        return parsedAuthCred
+        return JSON.parse(item!)._value as AuthCredential;
     }
 
     return {auth, signup, signIn, signOut, checkLoggedIn}
