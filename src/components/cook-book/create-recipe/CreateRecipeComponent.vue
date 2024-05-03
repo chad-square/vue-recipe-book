@@ -6,9 +6,8 @@ import type {RecipeMetadata} from "@/models/RecipeMetadata";
 import IngredientInput from "@/components/cook-book/create-recipe/IngredientInput.vue";
 import InstructionsInput from "@/components/cook-book/create-recipe/InstructionsInput.vue";
 import CategorySelectorInput from "@/components/cook-book/create-recipe/CategorySelectorInput.vue";
-import {useRecipeBookStore} from "@/stores/recipeBook";
-import {requiredValidation} from "@/shared/form/formValidations";
 import TimeInput from "@/shared/form/components/time-input.vue";
+import {useScreenSizeStore} from "@/stores/screenSize";
 
 const selectedCategories = ref([]);
 const formData = ref({
@@ -30,7 +29,7 @@ const formData = ref({
   },
   cookingTime: {
     error: '',
-    value: ''
+    value: '13:6'
   },
   ingredients: {
     error: '',
@@ -47,9 +46,11 @@ const formData = ref({
   isValid: true
 })
 
+const ori = ref(useScreenSizeStore().orientation)
+
 const onCreateRecipe = async function () {
 
-  requiredValidation(formData.value)
+  // requiredValidation(formData.value)
 
   if (!formData.value.isValid) {
     return
@@ -80,93 +81,146 @@ const onCreateRecipe = async function () {
 
   console.log('recipe: ', recipe, "metadata: ", metadata)
 
-  await useRecipeBookStore().createRecipe(recipe, metadata)
+  // await useRecipeBookStore().createRecipe(recipe, metadata)
 }
 </script>
 
 <template>
 
-  <section id="createEditRecipeComponent">
-    <h1 class="header">Create a new Recipe</h1>
+  <section class="for-small">
+    <Stepper :orientation="useScreenSizeStore().orientation" :class="'recipe-crud-stepper'">
+      <StepperPanel header="Header I">
+        <template #content="{ nextCallback }">
+          <div class="flex flex-column h-12rem">
+            <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
 
-    <form class="new-recipe-form">
+              <div class="form-control recipe-control name-control">
+                <div class="container">
+                  <label>Recipe Name:</label>
+                  <InputText placeholder="Email" required v-model="formData.name.value"/>
+                </div>
+                <p :class="{showError: formData.name.error.length > 0}" class="control-error">{{ formData.name.error }}</p>
+              </div>
 
-<!--      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam dolores, exercitationem illum nam natus necessitatibus neque omnis quaerat ullam!</p>-->
+              <!--      <div class="form-control recipe-control">-->
+              <!--        <div class="container">-->
+              <!--          <label>Thumbnail:</label>-->
+              <!--          <InputText placeholder="Password" v-model="formData.thumbnailPath.value"/>-->
+              <!--        </div>-->
+              <!--        <p :class="{showError: formData.thumbnailPath.error.length > 0}" class="control-error">{{-->
+              <!--            formData.thumbnailPath.error-->
+              <!--          }}</p>-->
+              <!--      </div>-->
 
-      <div class="form-control recipe-control name-control">
-        <div class="container">
-          <label>Recipe Name:</label>
-          <InputText placeholder="Email" required v-model="formData.name.value"/>
-        </div>
-        <p :class="{showError: formData.name.error.length > 0}" class="control-error">{{ formData.name.error }}</p>
-      </div>
+              <div class="form-control recipe-control is-private-control">
+                <div class="container">
+                  <label for="">isPrivate:</label>
+                  <InputSwitch v-model="formData.isPrivate.value"/>
+                </div>
+                <p :class="{showError: formData.isPrivate.error.length > 0}" class="control-error">{{
+                    formData.isPrivate.error
+                  }}</p>
+              </div>
 
-<!--      <div class="form-control recipe-control">-->
-<!--        <div class="container">-->
-<!--          <label>Thumbnail:</label>-->
-<!--          <InputText placeholder="Password" v-model="formData.thumbnailPath.value"/>-->
-<!--        </div>-->
-<!--        <p :class="{showError: formData.thumbnailPath.error.length > 0}" class="control-error">{{-->
-<!--            formData.thumbnailPath.error-->
-<!--          }}</p>-->
-<!--      </div>-->
+            </div>
+          </div>
+          <div class="flex py-4">
+            <Button label="Next" @click="nextCallback" />
+          </div>
+        </template>
+      </StepperPanel>
+      <StepperPanel header="Header II">
+        <template #content="{ prevCallback, nextCallback }">
+          <div class="flex flex-column h-12rem">
+            <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
 
-      <div class="form-control recipe-control is-private-control">
-        <div class="container">
-          <label for="">isPrivate:</label>
-          <InputSwitch v-model="formData.isPrivate.value"/>
-        </div>
-        <p :class="{showError: formData.isPrivate.error.length > 0}" class="control-error">{{
-            formData.isPrivate.error
-          }}</p>
-      </div>
+              <div class="form-control recipe-control categories-control">
+                <label class="categories-control-label">Categories: </label>
+                <CategorySelectorInput v-model="formData.categories.value"/>
+                <p :class="{showError: formData.categories.error.length > 0}" class="control-error">{{
+                    formData.categories.error
+                  }}</p>
+              </div>
 
-      <div class="form-control recipe-control categories-control">
-        <label class="categories-control-label">Categories: </label>
-        <CategorySelectorInput v-model="formData.categories.value"/>
-        <p :class="{showError: formData.categories.error.length > 0}" class="control-error">{{
-            formData.categories.error
-          }}</p>
-      </div>
+            </div>
+          </div>
+          <div class="flex py-4 gap-2">
+            <Button label="Back" severity="secondary" @click="prevCallback" />
+            <Button label="Next" @click="nextCallback" />
+          </div>
+        </template>
+      </StepperPanel>
+      <StepperPanel header="Header II">
+        <template #content="{ prevCallback, nextCallback }">
+          <div class="flex flex-column h-12rem">
+            <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
 
-      <div class="form-control recipe-control cooking-time-control">
-        <div class="container">
-          <label for="">Cooking Time:</label>
-          <Calendar id="calendar-timeonly" v-model="formData.cookingTime.value" timeOnly />
-        </div>
-        <p :class="{showError: formData.cookingTime.error.length > 0}" class="control-error">{{
-            formData.cookingTime.error
-          }}</p>
-      </div>
+              <div class="form-control recipe-control cooking-time-control">
+                <div class="container">
+                  <label for="">Cooking Time:</label>
+                  <TimeInput v-model="formData.cookingTime.value" />
+                </div>
+                <p :class="{showError: formData.cookingTime.error.length > 0}" class="control-error">{{
+                    formData.cookingTime.error
+                  }}</p>
+              </div>
 
-      <div class="form-control recipe-control ingredients-control">
-        <label for="">Ingredients:</label>
-        <IngredientInput v-model="formData.ingredients.value"/>
-      </div>
+            </div>
+          </div>
+          <div class="flex py-4 gap-2">
+            <Button label="Back" severity="secondary" @click="prevCallback" />
+            <Button label="Next" @click="nextCallback" />
+          </div>
+        </template>
+      </StepperPanel>
+      <StepperPanel header="Header III">
+        <template #content="{ prevCallback, nextCallback }">
+          <div class="flex flex-column h-12rem">
+            <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
 
-      <div class="form-control recipe-control instructions-control">
-        <label for="">Cooking Instructions:</label>
-        <InstructionsInput v-model="formData.instructions.value"/>
-      </div>
+              <div class="form-control recipe-control ingredients-control">
+                <label for="">Ingredients:</label>
+                <IngredientInput v-model="formData.ingredients.value"/>
+              </div>
 
-<!--      <div class="form-control recipe-control">-->
-<!--        <label for="">Additional Comments:</label>-->
-<!--        <InputText placeholder="Additional Comments" v-model="formData.additionalComments.value"/>-->
-<!--        <p :class="{showError: formData.additionalComments.error.length > 0}" class="control-error">{{-->
-<!--            formData.additionalComments.error-->
-<!--          }}</p>-->
-<!--      </div>-->
+            </div>
+          </div>
+          <div class="flex py-4 gap-2">
+            <Button label="Back" severity="secondary" @click="prevCallback" />
+            <Button label="Next" @click="nextCallback" />
+          </div>
+        </template>
+      </StepperPanel>
+      <StepperPanel header="Header 4">
+        <template #content="{ prevCallback }">
+          <div class="flex flex-column h-12rem">
+            <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
 
+              <div class="form-control recipe-control instructions-control">
+                <label for="">Cooking Instructions:</label>
+                <InstructionsInput v-model="formData.instructions.value"/>
+              </div>
 
-    </form>
-    <Button @click="onCreateRecipe" class="recipe-submit">Save Recipe</Button>
-
+            </div>
+          </div>
+          <div class="flex py-4">
+            <Button label="Back" severity="secondary" @click="prevCallback" />
+          </div>
+        </template>
+      </StepperPanel>
+    </Stepper>
   </section>
+
+  <Button @click="onCreateRecipe" class="recipe-submit">Save Recipe</Button>
 
 </template>
 
 <style lang="scss" scoped>
 @import "../../../shared/form/recipe-form";
+
+.p-stepper {
+  flex-basis: 50rem;
+}
 
 #createEditRecipeComponent {
   display: flex;
@@ -265,5 +319,24 @@ const onCreateRecipe = async function () {
 
 }
 
+.recipe-crud-stepper {
+  :deep(.p-stepper-action) {
+    background: transparent;
+  }
+  :deep(.p-stepper-number) {
+    background: transparent;
+  }
+  :deep(.p-stepper-panels) {
+    background: transparent;
+  }
+
+  :deep(.p-stepper-panel) {
+    background: transparent;
+  }
+
+  :deep(.p-stepper-toggleable-content ) {
+    background: transparent;
+  }
+}
 
 </style>
