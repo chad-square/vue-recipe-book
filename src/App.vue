@@ -1,6 +1,13 @@
 <script setup lang="ts">
 
 import AppHeaderComponent from "@/components/AppHeaderComponent.vue";
+import {onMounted} from "vue";
+import {useScreenSizeStore} from "@/stores/screenSize";
+
+onMounted(() => {
+  useScreenSizeStore().resizeObserver.observe(document.getElementById('app')!)
+})
+
 </script>
 
 <template>
