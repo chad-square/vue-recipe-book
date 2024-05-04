@@ -339,8 +339,6 @@ const onCreateRecipe = async function () {
   }
 
   .page-controls {
-    //border: 1px solid red;
-    //margin: auto;
     display: flex;
     gap: 10px;
 
