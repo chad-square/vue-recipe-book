@@ -124,7 +124,7 @@ const onCreateRecipe = async function () {
 
             </div>
           </div>
-          <div class="flex py-4">
+          <div class="flex py-4 page-controls">
             <Button label="Next" @click="nextCallback" />
           </div>
         </template>
@@ -144,7 +144,7 @@ const onCreateRecipe = async function () {
 
             </div>
           </div>
-          <div class="flex py-4 gap-2">
+          <div class="flex py-4 gap-2 page-controls">
             <Button label="Back" severity="secondary" @click="prevCallback" />
             <Button label="Next" @click="nextCallback" />
           </div>
@@ -167,7 +167,7 @@ const onCreateRecipe = async function () {
 
             </div>
           </div>
-          <div class="flex py-4 gap-2">
+          <div class="flex py-4 gap-2 page-controls">
             <Button label="Back" severity="secondary" @click="prevCallback" />
             <Button label="Next" @click="nextCallback" />
           </div>
@@ -185,7 +185,7 @@ const onCreateRecipe = async function () {
 
             </div>
           </div>
-          <div class="flex py-4 gap-2">
+          <div class="flex py-4 gap-2 page-controls">
             <Button label="Back" severity="secondary" @click="prevCallback" />
             <Button label="Next" @click="nextCallback" />
           </div>
@@ -203,7 +203,7 @@ const onCreateRecipe = async function () {
 
             </div>
           </div>
-          <div class="flex py-4">
+          <div class="flex py-4 page-controls">
             <Button label="Back" severity="secondary" @click="prevCallback" />
           </div>
         </template>
@@ -336,6 +336,15 @@ const onCreateRecipe = async function () {
 
   :deep(.p-stepper-toggleable-content ) {
     background: transparent;
+  }
+
+  .page-controls {
+    //border: 1px solid red;
+    //margin: auto;
+    display: flex;
+    gap: 10px;
+
+    justify-content: center;
   }
 }
 
