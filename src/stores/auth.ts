@@ -93,8 +93,11 @@ export const useAuthStore = defineStore('auth', () => {
         return auth.value
     }
 
-    function getFromLocal(): AuthCredential {
+    function getFromLocal(): AuthCredential | undefined {
         const item = localStorage.getItem(localAuthKey);
+        if (!item) {
+            return undefined
+        }
         return JSON.parse(item!)._value as AuthCredential;
     }
 
