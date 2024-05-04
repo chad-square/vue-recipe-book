@@ -9,6 +9,12 @@ import CategorySelectorInput from "@/components/cook-book/create-recipe/Category
 import TimeInput from "@/shared/form/components/time-input.vue";
 import {useScreenSizeStore} from "@/stores/screenSize";
 
+const step1 = ref();
+const step2 = ref();
+const step3 = ref();
+const step4 = ref();
+const step5 = ref();
+
 const selectedCategories = ref([]);
 const formData = ref({
   name: {
@@ -89,7 +95,7 @@ const onCreateRecipe = async function () {
 
   <section class="for-small">
     <Stepper :orientation="useScreenSizeStore().orientation" :class="'recipe-crud-stepper'">
-      <StepperPanel header="Header I">
+      <StepperPanel header="Recipe">
         <template #content="{ nextCallback }">
           <div class="flex flex-column h-12rem">
             <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
@@ -124,12 +130,12 @@ const onCreateRecipe = async function () {
 
             </div>
           </div>
-          <div class="flex py-4 page-controls">
+          <div ref="step1" class="flex py-4 page-controls">
             <Button label="Next" @click="nextCallback" />
           </div>
         </template>
       </StepperPanel>
-      <StepperPanel header="Header II">
+      <StepperPanel header="Categories">
         <template #content="{ prevCallback, nextCallback }">
           <div class="flex flex-column h-12rem">
             <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
@@ -144,13 +150,13 @@ const onCreateRecipe = async function () {
 
             </div>
           </div>
-          <div class="flex py-4 gap-2 page-controls">
+          <div ref="step2" class="flex py-4 gap-2 page-controls">
             <Button label="Back" severity="secondary" @click="prevCallback" />
             <Button label="Next" @click="nextCallback" />
           </div>
         </template>
       </StepperPanel>
-      <StepperPanel header="Header II">
+      <StepperPanel header="Cooking Time">
         <template #content="{ prevCallback, nextCallback }">
           <div class="flex flex-column h-12rem">
             <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
@@ -167,13 +173,13 @@ const onCreateRecipe = async function () {
 
             </div>
           </div>
-          <div class="flex py-4 gap-2 page-controls">
+          <div ref="step3" class="flex py-4 gap-2 page-controls">
             <Button label="Back" severity="secondary" @click="prevCallback" />
             <Button label="Next" @click="nextCallback" />
           </div>
         </template>
       </StepperPanel>
-      <StepperPanel header="Header III">
+      <StepperPanel header="Ingredients">
         <template #content="{ prevCallback, nextCallback }">
           <div class="flex flex-column h-12rem">
             <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
@@ -185,13 +191,13 @@ const onCreateRecipe = async function () {
 
             </div>
           </div>
-          <div class="flex py-4 gap-2 page-controls">
+          <div ref="step4" class="flex py-4 gap-2 page-controls">
             <Button label="Back" severity="secondary" @click="prevCallback" />
             <Button label="Next" @click="nextCallback" />
           </div>
         </template>
       </StepperPanel>
-      <StepperPanel header="Header 4">
+      <StepperPanel header="Instructions">
         <template #content="{ prevCallback }">
           <div class="flex flex-column h-12rem">
             <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
@@ -203,7 +209,7 @@ const onCreateRecipe = async function () {
 
             </div>
           </div>
-          <div class="flex py-4 page-controls">
+          <div ref="step5" class="flex py-4 page-controls">
             <Button label="Back" severity="secondary" @click="prevCallback" />
           </div>
         </template>
@@ -251,6 +257,10 @@ const onCreateRecipe = async function () {
   label {
     margin-bottom: var(--appElementSpacing)
   }
+}
+
+.instructions-control, .ingredients-control {
+    margin-bottom: var(--appElementSpacing)
 }
 
 .categories-control {

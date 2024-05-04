@@ -6,7 +6,6 @@ export const useScreenSizeStore = defineStore('screenSize', () => {
   const resizeObserver = new ResizeObserver((entries) => {
     const entry = entries[0]
     const { width, height } = entry.contentRect
-    console.log(`width: ${width}, height: ${height}`)
     screenWidth.value = {width, height}
   })
 
