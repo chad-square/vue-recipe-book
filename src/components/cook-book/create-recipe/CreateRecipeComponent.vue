@@ -8,6 +8,7 @@ import InstructionsInput from "@/components/cook-book/create-recipe/Instructions
 import CategorySelectorInput from "@/components/cook-book/create-recipe/CategorySelectorInput.vue";
 import TimeInput from "@/shared/form/components/time-input.vue";
 import {useScreenSizeStore} from "@/stores/screenSize";
+import {requiredValidation} from "@/shared/form/formValidations";
 
 const step1 = ref();
 const step2 = ref();
@@ -56,7 +57,7 @@ const ori = ref(useScreenSizeStore().orientation)
 
 const onCreateRecipe = async function () {
 
-  // requiredValidation(formData.value)
+  requiredValidation(formData.value)
 
   if (!formData.value.isValid) {
     return
@@ -189,6 +190,10 @@ const onCreateRecipe = async function () {
                 <IngredientInput v-model="formData.ingredients.value"/>
               </div>
 
+              <p :class="{showError: formData.ingredients.error.length > 0}" class="control-error">{{
+                  formData.ingredients.error
+                }}</p>
+
             </div>
           </div>
           <div ref="step4" class="flex py-4 gap-2 page-controls">
@@ -198,7 +203,7 @@ const onCreateRecipe = async function () {
         </template>
       </StepperPanel>
       <StepperPanel header="Instructions">
-        <template #content="{ prevCallback }">
+        <template #content="{  prevCallback, nextCallback }">
           <div class="flex flex-column h-12rem">
             <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
 
@@ -206,6 +211,25 @@ const onCreateRecipe = async function () {
                 <label for="">Cooking Instructions:</label>
                 <InstructionsInput v-model="formData.instructions.value"/>
               </div>
+
+              <p :class="{showError: formData.instructions.error.length > 0}" class="control-error">{{
+                  formData.instructions.error
+                }}</p>
+
+            </div>
+          </div>
+          <div ref="step5" class="flex py-4 page-controls">
+            <Button label="Back" severity="secondary" @click="prevCallback" />
+            <Button label="Next" @click="nextCallback" />
+          </div>
+        </template>
+      </StepperPanel>
+      <StepperPanel header="Save">
+        <template #content="{ prevCallback }">
+          <div class="flex flex-column h-12rem">
+            <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
+
+              <Button @click="onCreateRecipe" class="recipe-submit">Save Recipe</Button>
 
             </div>
           </div>
@@ -216,8 +240,6 @@ const onCreateRecipe = async function () {
       </StepperPanel>
     </Stepper>
   </section>
-
-  <Button @click="onCreateRecipe" class="recipe-submit">Save Recipe</Button>
 
 </template>
 
@@ -354,6 +376,14 @@ const onCreateRecipe = async function () {
 
     justify-content: center;
   }
+
+
+}
+
+
+.recipe-submit {
+  margin: auto auto 10px auto;
+  display: flex;
 }
 
 </style>

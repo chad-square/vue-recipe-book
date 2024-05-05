@@ -5,6 +5,7 @@ export const requiredValidation = function(formData: any) {
             if (!formData[formControlName].value.length) {
                 formData[formControlName].error = `${formControlName.charAt(0).toUpperCase()}${formControlName.substring(1)}  is a required field`
                 formData.isValid = false
+                console.warn('form required validation failed: ', formControlName)
                 return
             } else {
                 formData[formControlName].error = ''
