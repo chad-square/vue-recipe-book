@@ -4,6 +4,7 @@ import {appName} from "@/data";
 import type {Recipe} from "@/models/Recipe";
 import type {RecipeMetadata} from "@/models/RecipeMetadata";
 import {supabase} from "@/lib/supabaseClient";
+import {SupabaseRecipeCrud} from "@/db/SupabaseRecipeCrud";
 
 const localAuthKey = `${appName}-authCred`
 
@@ -11,6 +12,9 @@ export const useRecipeBookStore = defineStore('recipeBook', () => {
 
     const filteredCategories = ref<string[]>([]);
     const recipeSearchValue = ref<string>('');
+    const allRecipeMetadata = ref<RecipeMetadata[]>()
+
+    const supabaseCrud = new SupabaseRecipeCrud()
 
     watch(recipeSearchValue, () => {
         console.log('recipeSearchValue: ', recipeSearchValue.value)
@@ -20,47 +24,46 @@ export const useRecipeBookStore = defineStore('recipeBook', () => {
         recipeSearchValue.value = 'asdfasd'
     }
 
+    async function selectRecipeMetadataByRecipeId(id: string | number) {
+
+        if (!allRecipeMetadata.value || !allRecipeMetadata.value?.some(metadata => metadata.id === id)) {
+            return await supabaseCrud.selectRecipeMetadataByRecipeId(id)
+        }
+
+        return allRecipeMetadata.value?.find(metadata => metadata.id === id)
+    }
+
+    async function selectAllRecipeMetadata() {
+
+        if (!allRecipeMetadata.value) {
+            allRecipeMetadata.value = await supabaseCrud.selectAllRecipeMetadata();
+            return allRecipeMetadata.value;
+        }
+
+        return allRecipeMetadata.value;
+    }
+
     async function insertRecipeMetadata(recipeMetadata: RecipeMetadata) {
-        return supabase
-            .from('recipeMetadata')
-            .insert(recipeMetadata)
-            .select()
+        return supabaseCrud.insertRecipeMetadata(recipeMetadata);
     }
 
     async function insertRecipe(recipe: Recipe) {
-        return  supabase
-            .from('recipes')
-            .insert(recipe)
-            .select()
+        return supabaseCrud.insertRecipe(recipe)
     }
 
-    async function createRecipe(recipe: Recipe, recipeMetadata: RecipeMetadata){
-        try {
-            const recipeRes = await insertRecipe(recipe);
-
-            if (recipeRes.data) {
-                console.log("successfully created new recipe: ", recipeRes.data[0]);
-            } else {
-                console.warn('An error occurred while creating new recipe: ', recipeRes.error);
-                return
-            }
-
-            recipeMetadata.recipeId = recipeRes.data[0]['id'];
-            const metadataRes = await insertRecipeMetadata(recipeMetadata);
-
-            if (metadataRes.data) {
-                console.log("metadataRes SUCCESS: ", recipeRes.data);
-                console.log('metadataRes ID: ', metadataRes.data[0]['id']);
-            } else {
-                console.warn('An error occurred while creating new recipe metadata: ', metadataRes.error);
-            }
-
-        } catch (e) {
-            console.warn("An error occurred inserting the recipe: ", e)
-        }
+    async function createRecipe(recipe: Recipe, recipeMetadata: RecipeMetadata) {
+        await supabaseCrud.createRecipe(recipe, recipeMetadata)
     }
 
 
-
-    return {filteredCategories, recipeSearchValue, setRecipeSearchValue, insertRecipe, insertRecipeMetadata, createRecipe}
+    return {
+        filteredCategories,
+        recipeSearchValue,
+        setRecipeSearchValue,
+        insertRecipe,
+        insertRecipeMetadata,
+        createRecipe,
+        selectRecipeMetadataByRecipeId,
+        selectAllRecipeMetadata
+    }
 })
