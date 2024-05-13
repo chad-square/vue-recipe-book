@@ -2,12 +2,19 @@
 
 import type {RecipeMetadata} from "@/models/RecipeMetadata";
 import {watch} from "vue";
+import router from "@/router";
 
 const props = defineProps<{ recipeMetadata: RecipeMetadata[] }>()
 
 watch(props, () => {
   console.log(props.recipeMetadata)
 })
+
+const onRecipeClick = function(recipeId: number) {
+  // with query, resulting in /editRecipe?recipeId=<recipeId>
+  console.log(recipeId)
+  router.push({ name: 'editRecipe', params: { recipeId: recipeId } })
+}
 
 
 </script>
@@ -18,7 +25,7 @@ watch(props, () => {
 
       <template #list="slotProps">
         <div class="recipes-container">
-          <div v-for="(item, index) in slotProps.items" :key="index" class="recipe-item">
+          <div v-for="(item, index) in slotProps.items" :key="index" class="recipe-item" @click="onRecipeClick(item.recipeId)">
             <img class="" :src="`../../../public${item.thumbnailPath}`" :alt="item.name" style="max-width: 300px"/>
             <div class="summary">
               <div class="header">

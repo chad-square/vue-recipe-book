@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useAuthStore} from "@/stores/auth";
 import type {Recipe} from "@/models/Recipe";
 import type {RecipeMetadata} from "@/models/RecipeMetadata";
@@ -9,6 +9,8 @@ import CategorySelectorInput from "@/components/cook-book/create-recipe/Category
 import TimeInput from "@/shared/form/components/time-input.vue";
 import {useScreenSizeStore} from "@/stores/screenSize";
 import {requiredValidation} from "@/shared/form/formValidations";
+import {useRecipeBookStore} from "@/stores/recipeBook";
+import router from "@/router";
 
 const step1 = ref();
 const step2 = ref();
@@ -18,6 +20,7 @@ const step5 = ref();
 
 const selectedCategories = ref([]);
 const formData = ref({
+  id: '',
   name: {
     error: '',
     value: 'Taco Tuesday'
@@ -51,6 +54,21 @@ const formData = ref({
     value: []
   },
   isValid: true
+})
+
+onMounted(() => {
+  console.log(router.currentRoute.value.params['recipeId'])
+  formData.value.id = router.currentRoute.value.params['recipeId'] as string;
+
+  useRecipeBookStore().selectRecipeMetadataByRecipeId(formData.value.id)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.warn('An error occurred: ', error)
+      })
+
+
 })
 
 const ori = ref(useScreenSizeStore().orientation)

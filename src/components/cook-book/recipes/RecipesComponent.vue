@@ -2,12 +2,23 @@
 
 import RecipeListComponent from "@/components/cook-book/recipes/RecipeListComponent.vue";
 import {dummyRecipeMetadata} from "@/mockDatabase";
-import {computed, type ComputedRef, ref} from "vue";
+import {computed, type ComputedRef, onMounted, ref} from "vue";
 import type {RecipeMetadata} from "@/models/RecipeMetadata";
 import CockpitComponent from "@/components/cook-book/recipes/cockpit/CockpitComponent.vue";
 import {useRecipeBookStore} from "@/stores/recipeBook";
 
-const allRecipeMetadata = ref<RecipeMetadata[]>(dummyRecipeMetadata)
+const allRecipeMetadata = ref<RecipeMetadata[]>([])
+
+onMounted(() => {
+  useRecipeBookStore().selectAllRecipeMetadata()
+      .then((data) => {
+        allRecipeMetadata.value = data;
+      })
+      .catch((error) => {
+        console.warn('An error occurred: ', error);
+      })
+
+})
 
 const search: ComputedRef<RecipeMetadata[]> = computed(() => allRecipeMetadata.value.filter(metadata => {
   if (useRecipeBookStore().recipeSearchValue.length) {
