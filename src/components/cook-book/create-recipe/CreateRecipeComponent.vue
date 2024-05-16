@@ -95,7 +95,7 @@ onMounted(() => {
 const onCreateRecipe = async function () {
 
   console.log(formData.value)
-  // requiredValidation(formData.value)
+  requiredValidation(formData.value)
 
   if (!formData.value.isValid) {
     return
