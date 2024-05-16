@@ -46,7 +46,7 @@ const onAddIngredient = function () {
       <div class="input-group">
         <Dropdown v-model="selectedMeasurement" :options="measurementOptions" optionLabel="name"
                   placeholder="Measurement" class="" inputId="measurementSelect" />
-        <InputNumber v-model="quantityInput" showButtons buttonLayout="horizontal" inputId="quantityInput"  :min="0" :max="59">
+        <InputNumber v-model="quantityInput" showButtons buttonLayout="horizontal" inputId="quantityInput"  :min="0">
           <template #incrementbuttonicon>
             <span class="pi pi-plus" />
           </template>
