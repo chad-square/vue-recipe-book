@@ -1,7 +1,7 @@
 export const requiredValidation = function(formData: any) {
 
     for (const formControlName in formData) {
-        if (formControlName !== 'isValid' && formControlName !== 'isPrivate') {
+        if (!['isValid', 'isPrivate', 'id'].includes(formControlName)) {
             if (!formData[formControlName].value.length) {
                 formData[formControlName].error = `${formControlName.charAt(0).toUpperCase()}${formControlName.substring(1)}  is a required field`
                 formData.isValid = false
