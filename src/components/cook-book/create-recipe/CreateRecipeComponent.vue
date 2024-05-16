@@ -11,6 +11,7 @@ import {useScreenSizeStore} from "@/stores/screenSize";
 import {requiredValidation} from "@/shared/form/formValidations";
 import {useRecipeBookStore} from "@/stores/recipeBook";
 import router from "@/router";
+import type {Ingredient} from "@/models/Ingredient";
 
 const step1 = ref();
 const step2 = ref();
@@ -23,7 +24,7 @@ const formData = ref({
   id: '',
   name: {
     error: '',
-    value: 'Taco Tuesday'
+    value: ''
   },
   thumbnailPath: {
     error: '',
@@ -35,56 +36,77 @@ const formData = ref({
   },
   categories: {
     error: '',
-    value: []
+    value: [] as string[]
   },
   cookingTime: {
     error: '',
-    value: '13:6'
+    value: ''
   },
   ingredients: {
     error: '',
-    value: []
+    value: [] as Ingredient[]
   },
   instructions: {
     error: '',
-    value: []
+    value: [] as string[]
   },
   additionalComments: {
     error: '',
-    value: []
+    value: [] as string[]
   },
   isValid: true
 })
 
-onMounted(() => {
-  console.log(router.currentRoute.value.params['recipeId'])
-  formData.value.id = router.currentRoute.value.params['recipeId'] as string;
+let metadataId: number | undefined = undefined;
 
-  useRecipeBookStore().selectRecipeMetadataByRecipeId(formData.value.id)
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.warn('An error occurred: ', error)
-      })
+onMounted(() => {
+  if (router.currentRoute.value.params['recipeId']) {
+
+    formData.value.id = router.currentRoute.value.params['recipeId'] as string;
+    useRecipeBookStore().selectRecipeMetadataByRecipeId(formData.value.id)
+        .then((data) => {
+          metadataId = data?.id;
+          formData.value.name.value = data?.name!
+          formData.value.cookingTime.value = data?.cookingTime!
+          formData.value.categories.value = data?.categories! as string[]
+          formData.value.isPrivate.value = data?.isPrivate!
+          formData.value.thumbnailPath.value = data?.thumbnailPath!
+        })
+        .catch((error) => {
+          console.warn('An error occurred: ', error)
+        })
+
+    useRecipeBookStore().selectRecipeById(formData.value.id)
+        .then((data) => {
+          formData.value.instructions.value = data?.instructions! as string[]
+          formData.value.ingredients.value = data?.ingredients! as Ingredient[]
+          formData.value.additionalComments.value = data?.additionalComments! as string[]
+        })
+        .catch((error) => {
+          console.warn('An error occurred: ', error)
+        })
+  }
+
 
 
 })
 
-const ori = ref(useScreenSizeStore().orientation)
 
 const onCreateRecipe = async function () {
 
-  requiredValidation(formData.value)
+  console.log(formData.value)
+  // requiredValidation(formData.value)
 
   if (!formData.value.isValid) {
     return
   }
 
   console.log(useAuthStore().auth?.email);
+  console.log('recipe ID str: ', formData.value.id)
+  console.log('recipe ID num: ', +formData.value.id)
   const metadata: RecipeMetadata = {
-    id: undefined,
-    recipeId: undefined,
+    id: metadataId,
+    recipeId: formData.value.id ? +formData.value.id : undefined,
     author: useAuthStore().auth?.email!,
     likes: JSON.stringify([]),
     name: formData.value.name.value,
@@ -94,10 +116,8 @@ const onCreateRecipe = async function () {
     cookingTime: formData.value.cookingTime.value
   };
 
-  console.log(useAuthStore().auth?.email);
-
   const recipe: Recipe = {
-    id: undefined,
+    id: formData.value.id ? +formData.value.id : undefined,
     userId: useAuthStore().auth?.uid,
     ingredients: JSON.stringify(formData.value.ingredients.value),
     instructions: JSON.stringify(formData.value.instructions.value),
@@ -106,7 +126,7 @@ const onCreateRecipe = async function () {
 
   console.log('recipe: ', recipe, "metadata: ", metadata)
 
-  // await useRecipeBookStore().createRecipe(recipe, metadata)
+  await useRecipeBookStore().createRecipe(recipe, metadata)
 }
 </script>
 

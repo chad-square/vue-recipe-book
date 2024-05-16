@@ -35,14 +35,14 @@ export class SupabaseRecipeCrud implements RecipeCrud {
     async insertRecipe(recipe: Recipe): Promise<any> {
         return supabase
             .from('recipes')
-            .insert(recipe)
+            .upsert(recipe, {ignoreDuplicates: false})
             .select()
     }
 
     async insertRecipeMetadata(recipeMetadata: RecipeMetadata): Promise<any> {
         return supabase
             .from('recipeMetadata')
-            .insert(recipeMetadata)
+            .upsert(recipeMetadata, {ignoreDuplicates: false})
             .select()
     }
 
@@ -51,7 +51,7 @@ export class SupabaseRecipeCrud implements RecipeCrud {
         const res = await supabase.from('recipeMetadata').select()
 
         if (res.error) {
-            console.log('no metadata found')
+            console.warn('an error occurred retrieving the recipeMetadata: ', res.error)
             return [];
         }
 
@@ -70,13 +70,48 @@ export class SupabaseRecipeCrud implements RecipeCrud {
         const res = await supabase.from('recipeMetadata').select("*").eq('recipeId', id)
 
         if (res.error) {
-            console.warn('no metadata found')
+            console.warn('an error occurred retrieving the recipeMetadata: ', res.error)
             throw res.error;
         }
 
         return {... res.data[0], likes: JSON.parse(res.data[0]['likes']), categories: JSON.parse(res.data[0]['categories'])} as RecipeMetadata;
     }
 
+    async selectAllRecipes(): Promise<Recipe[]> {
+        console.log('retrieving all recipes from db...')
+        const res = await supabase.from('recipes').select()
+
+        if (res.error) {
+            console.warn('an error occurred retrieving the recipes: ', res.error)
+            return [];
+        }
+
+        return res.data.map(metadata => {
+            return {
+                ...metadata,
+                ingredients: JSON.parse(metadata['ingredients']),
+                instructions: JSON.parse(res.data[0]['instructions'])
+            } as Recipe
+        })
+
+    }
+
+
+    async selectRecipeById(id: string | number): Promise<Recipe> {
+        console.log('retrieving recipe by ID from db...')
+        const res = await supabase.from('recipes').select("*").eq('id', id)
+
+        if (res.error) {
+            console.warn('an error occurred retrieving the recipe: ', res.error)
+            throw res.error;
+        }
+
+        return {
+            ... res.data[0],
+            ingredients: JSON.parse(res.data[0]['ingredients']),
+            instructions: JSON.parse(res.data[0]['instructions'])
+        } as Recipe;
+    }
 
 
 

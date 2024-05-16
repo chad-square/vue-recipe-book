@@ -13,6 +13,7 @@ export const useRecipeBookStore = defineStore('recipeBook', () => {
     const filteredCategories = ref<string[]>([]);
     const recipeSearchValue = ref<string>('');
     const allRecipeMetadata = ref<RecipeMetadata[]>()
+    const allRecipes = ref<Recipe[]>()
 
     const supabaseCrud = new SupabaseRecipeCrud()
 
@@ -26,7 +27,7 @@ export const useRecipeBookStore = defineStore('recipeBook', () => {
 
     async function selectRecipeMetadataByRecipeId(id: string | number) {
 
-        if (!allRecipeMetadata.value || !allRecipeMetadata.value?.some(metadata => metadata.id === id)) {
+        if (!allRecipeMetadata.value || !allRecipeMetadata.value?.some(metadata => metadata.recipeId === id)) {
             return await supabaseCrud.selectRecipeMetadataByRecipeId(id)
         }
 
@@ -55,6 +56,18 @@ export const useRecipeBookStore = defineStore('recipeBook', () => {
         await supabaseCrud.createRecipe(recipe, recipeMetadata)
     }
 
+    async function selectAllRecipes() {
+        await supabaseCrud.selectAllRecipes()
+    }
+
+    async function selectRecipeById(id: string | number) {
+
+        if (!allRecipes.value || !allRecipes.value?.some(recipe => recipe.id === id)) {
+            return await supabaseCrud.selectRecipeById(id)
+        }
+
+        return allRecipes.value?.find(recipe => recipe.id === id)
+    }
 
     return {
         filteredCategories,
@@ -64,6 +77,8 @@ export const useRecipeBookStore = defineStore('recipeBook', () => {
         insertRecipeMetadata,
         createRecipe,
         selectRecipeMetadataByRecipeId,
-        selectAllRecipeMetadata
+        selectAllRecipeMetadata,
+        selectAllRecipes,
+        selectRecipeById
     }
 })
