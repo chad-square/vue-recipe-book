@@ -14,20 +14,46 @@ const measurementOptions = ref([
   {name: 'kilogram', code: 'Kg'},
   {name: 'millilitre', code: 'ml'},
   {name: 'litre', code: 'L'},
-  {name: 'whole', code: ''},
+  {name: 'whole', code: 'Whole'},
+  {name: 'slice', code: 'Slices'},
+  {name: 'cup', code: 'Cusp'},
 ]);
 
+let ingredientEditId: number | undefined = undefined
+
 const onAddIngredient = function () {
+
   const ingredient: Ingredient = {
     name: ingredientInput.value,
     quantity: quantityInput.value,
     measurement: selectedMeasurement.value.code
   }
-  ingredients.value?.unshift(ingredient)
+
+  if (ingredientEditId != undefined) {
+    ingredients.value![ingredientEditId] = ingredient;
+    ingredientEditId = undefined;
+  } else {
+    ingredients.value?.unshift(ingredient)
+  }
 
   ingredientInput.value = '';
   quantityInput.value = 0;
   selectedMeasurement.value = {};
+}
+
+const onIngredientDelete = function(ingredient: Ingredient) {
+  ingredients.value = ingredients.value?.filter(listedIngredient => listedIngredient != ingredient)
+}
+
+const onIngredientEdit = function(ingredient: Ingredient, index: number) {
+
+  ingredientEditId = index
+  ingredientInput.value = ingredient.name;
+  quantityInput.value = ingredient.quantity;
+  selectedMeasurement.value = {
+    code: ingredient.measurement,
+    name: measurementOptions.value.find(mea =>  mea.code == ingredient.measurement)?.name
+  };
 }
 
 </script>
@@ -37,7 +63,11 @@ const onAddIngredient = function () {
   <div class="form-control ingredients-control-container">
     <ul class="recipe-input-list listed-ingredients">
       <li v-for="(ingredient,  index) in ingredients" :key="index">
-        <p>{{ ingredient.name }} - <span class="quantity app-chip">{{ ingredient.quantity }}<span class="measurement">{{ ingredient.measurement }}</span></span></p>
+        <p>{{ ingredient.name }} -
+          <span class="quantity app-chip">{{ ingredient.quantity }}<span class="measurement">{{ ingredient.measurement }}</span></span>
+          <span @click="onIngredientDelete(ingredient)"><i class="pi pi-trash"></i></span>
+          |
+          <span @click="onIngredientEdit(ingredient, index)"><i class="pi pi-file-edit"></i></span></p>
       </li>
     </ul>
 
@@ -140,6 +170,15 @@ const onAddIngredient = function () {
 @media (min-width: 450px) {
   .listed-ingredients {
     width: 40vw;
+
+    li  {
+
+      &:hover {
+        cursor: pointer;
+        background-color: var(--orange-100);
+        border-radius: var(--border-radius)
+      }
+    }
   }
 }
 
