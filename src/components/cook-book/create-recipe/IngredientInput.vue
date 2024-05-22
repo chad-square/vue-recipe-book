@@ -63,11 +63,15 @@ const onIngredientEdit = function(ingredient: Ingredient, index: number) {
   <div class="form-control ingredients-control-container">
     <ul class="recipe-input-list listed-ingredients">
       <li v-for="(ingredient,  index) in ingredients" :key="index">
-        <p>{{ ingredient.name }} -
+        <p>
+          <span class="ingredient-name">{{ ingredient.name }} </span>
           <span class="quantity app-chip">{{ ingredient.quantity }}<span class="measurement">{{ ingredient.measurement }}</span></span>
-          <span @click="onIngredientDelete(ingredient)"><i class="pi pi-trash"></i></span>
-          |
-          <span @click="onIngredientEdit(ingredient, index)"><i class="pi pi-file-edit"></i></span></p>
+          <span class="update-del-container">
+            <span @click="onIngredientDelete(ingredient)"><i class="pi pi-trash"></i></span>
+            |
+            <span @click="onIngredientEdit(ingredient, index)"><i class="pi pi-file-edit"></i></span>
+          </span>
+        </p>
       </li>
     </ul>
 
@@ -121,13 +125,18 @@ const onIngredientEdit = function(ingredient: Ingredient, index: number) {
   .quantity {
     width: fit-content;
     display: inline-flex;
+    margin: 5px;
+  }
+
+  .update-del-container {
+    //margin-left: 10px;
+    display: flex;
+    gap: 5px;
   }
 }
 
 .listed-ingredients {
-  padding: 30px;
   height: 20vh;
-  text-align: center;
   overflow-y: auto;
   list-style: none;
   border-radius: 5px;
@@ -144,6 +153,16 @@ const onIngredientEdit = function(ingredient: Ingredient, index: number) {
 
   p {
     text-wrap: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .ingredient-name {
+      display: inline-block;
+      width: 30vw;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
 }
 
@@ -172,6 +191,7 @@ const onIngredientEdit = function(ingredient: Ingredient, index: number) {
     width: 40vw;
 
     li  {
+      padding: 5px;
 
       &:hover {
         cursor: pointer;
