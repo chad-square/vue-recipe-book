@@ -60,6 +60,8 @@ const formData = ref({
 let metadataId: number | undefined = undefined;
 
 onMounted(() => {
+
+  // for editing a recipe
   if (router.currentRoute.value.params['recipeId']) {
 
     formData.value.id = router.currentRoute.value.params['recipeId'] as string;
