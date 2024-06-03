@@ -3,16 +3,15 @@ import {ref} from "vue";
 
 const instructions = defineModel<string[]>()
 const instructionInput = ref('')
-const instructions = defineModel<string[]>();
-let instructionEditId: number | undefined = undefined;
+let instructionEditId = ref<number | undefined>(undefined);
 
 const onAddInstruction = function () {
 
   if (instructionInput.value.length) {
 
-    if (instructionEditId != undefined) {
-      instructions.value![instructionEditId] = instructionInput.value;
-      instructionEditId = undefined;
+    if (instructionEditId.value != undefined) {
+      instructions.value![instructionEditId.value] = instructionInput.value;
+      instructionEditId.value = undefined;
     } else {
       instructions.value?.push(instructionInput.value);
     }
@@ -28,13 +27,13 @@ const onInstructionDelete = function(instruction: string) {
 
 const onInstructionEdit = function(instruction: string, index: number) {
 
-  instructionEditId = index
+  instructionEditId.value = index
   instructionInput.value = instruction;
 }
 
 const clearInput = function() {
   instructionInput.value = '';
-  instructionEditId = undefined;
+  instructionEditId.value = undefined;
 }
 
 </script>
@@ -60,7 +59,8 @@ const clearInput = function() {
 
     <div class="inputs-container">
       <Textarea placeholder="Add Instruction..." v-model="instructionInput"/>
-      <Button @click="onAddInstruction" class="pi pi-plus"></Button>
+      <Button v-if="!instructionEditId" @click="onAddInstruction" class="pi pi-plus"></Button>
+      <Button v-if="instructionEditId" @click="onAddInstruction" class="pi pi-save"></Button>
     </div>
 
   </div>

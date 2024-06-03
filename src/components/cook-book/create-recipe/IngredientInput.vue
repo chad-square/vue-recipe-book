@@ -19,7 +19,7 @@ const measurementOptions = ref([
   {name: 'cup', code: 'Cusp'},
 ]);
 
-let ingredientEditId: number | undefined = undefined
+let ingredientEditId = ref<number | undefined>(undefined);
 
 const onAddIngredient = function () {
 
@@ -29,9 +29,9 @@ const onAddIngredient = function () {
     measurement: selectedMeasurement.value.code
   }
 
-  if (ingredientEditId != undefined) {
-    ingredients.value![ingredientEditId] = ingredient;
-    ingredientEditId = undefined;
+  if (ingredientEditId.value != undefined) {
+    ingredients.value![ingredientEditId.value] = ingredient;
+    ingredientEditId.value = undefined;
   } else {
     ingredients.value?.unshift(ingredient)
   }
@@ -47,7 +47,7 @@ const onIngredientDelete = function(ingredient: Ingredient) {
 
 const onIngredientEdit = function(ingredient: Ingredient, index: number) {
 
-  ingredientEditId = index
+  ingredientEditId.value = index
   ingredientInput.value = ingredient.name;
   quantityInput.value = ingredient.quantity;
   selectedMeasurement.value = {
@@ -89,7 +89,8 @@ const onIngredientEdit = function(ingredient: Ingredient, index: number) {
           </template>
         </InputNumber>
       </div>
-        <Button @click="onAddIngredient" class="pi pi-plus"></Button>
+        <Button v-if="!ingredientEditId" @click="onAddIngredient" class="pi pi-plus"></Button>
+        <Button v-if="ingredientEditId" @click="onAddIngredient" class="pi pi-save"></Button>
     </div>
   </div>
 
