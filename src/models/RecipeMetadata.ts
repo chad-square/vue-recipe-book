@@ -20,6 +20,6 @@ export interface RecipeMetadata {
     likes: number[] | string;
     thumbnailPath: string;
     isPrivate: boolean;
-    categories: string[] | string;
+    categories: string[];
     cookingTime: string;
 }
