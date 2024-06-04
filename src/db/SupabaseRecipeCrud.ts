@@ -77,6 +77,26 @@ export class SupabaseRecipeCrud implements RecipeCrud {
         return {... res.data[0], likes: JSON.parse(res.data[0]['likes']), categories: JSON.parse(res.data[0]['categories'])} as RecipeMetadata;
     }
 
+    async selectAllRecipeMetadataByAuthor(author: string): Promise<RecipeMetadata[]> {
+        console.log('retrieving RecipeMetadata from db...')
+        const res = await supabase.from('recipeMetadata').select("*").eq('author', author)
+
+        if (res.error) {
+            console.warn(`an error occurred retrieving the recipeMetadata for author ${author}: ${res.error}`)
+            throw res.error;
+        }
+
+        return res.data.map(metadata => {
+            return {
+                ...metadata,
+                likes: JSON.parse(metadata['likes']),
+                categories: JSON.parse(res.data[0]['categories'])
+            } as RecipeMetadata
+        })
+
+        // return {... res.data[0], likes: JSON.parse(res.data[0]['likes']), categories: JSON.parse(res.data[0]['categories'])} as RecipeMetadata;
+    }
+
     async selectAllRecipes(): Promise<Recipe[]> {
         console.log('retrieving all recipes from db...')
         const res = await supabase.from('recipes').select()
