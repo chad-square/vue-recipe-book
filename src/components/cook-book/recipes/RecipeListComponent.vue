@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import type {RecipeMetadata} from "@/models/RecipeMetadata";
-import {watch} from "vue";
+import {onMounted, watch} from "vue";
 import router from "@/router";
 
 const props = defineProps<{ recipeMetadata: RecipeMetadata[] }>()
@@ -15,6 +15,10 @@ const onRecipeClick = function(recipeId: number) {
   console.log(recipeId)
   router.push({ name: 'editRecipe', params: { recipeId: recipeId } })
 }
+
+onMounted(() => {
+  console.log(router.currentRoute.value)
+})
 
 
 </script>

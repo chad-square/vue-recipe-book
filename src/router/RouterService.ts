@@ -12,6 +12,10 @@ export class RouterService {
         return router.push('/recipes')
     }
 
+    navigateToMyRecipes() {
+        return router.push('/my-recipes')
+    }
+
     navigateToCreateRecipe() {
         return router.push('/create')
     }

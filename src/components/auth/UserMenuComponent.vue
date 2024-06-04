@@ -15,9 +15,14 @@ const items = ref([
         icon: 'pi pi-user'
       },
       {
-        label: 'Recipes',
+        label: 'All Recipes',
         icon: 'pi pi-table',
         command: () => {router.navigateToRecipes()}
+      },
+      {
+        label: 'My Recipes',
+        icon: 'pi pi-table',
+        command: () => {router.navigateToMyRecipes()}
       },
       {
         label: 'Sign-out',

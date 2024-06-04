@@ -77,6 +77,11 @@ const router = createRouter({
           redirect: '/recipes'
         },
         {
+          path: '/my-recipes',
+          name: 'myRecipes',
+          component: RecipesComponent
+        },
+        {
           path: '/create',
           name: 'createRecipe',
           component: CreateRecipeComponent
